@@ -1,145 +1,192 @@
 #!/usr/bin/python
-
+# Import ROS environments and message types
 import rospy
 import sensor_msgs.point_cloud2 as pc2
 from sensor_msgs.msg import LaserScan
+from nav_msgs.msg import Odometry
 from std_msgs.msg import String
 from geometry_msgs.msg import Twist
-import laser_geometry.laser_geometry as lg
-import numpy as np
 from visualization_msgs.msg import Marker
 from visualization_msgs.msg import MarkerArray
+# Import calculating and operating packages
+from simple_script_server import *
+import laser_geometry.laser_geometry as lg
+import numpy as np
 from sklearn.cluster import KMeans
 
 
-class laser_handler():
+class cob_ready_state():
     def __init__(self):
-        self.lp = lg.LaserProjection()
-        self.pub_position = rospy.Publisher("/standing_position", Twist, queue_size=10)
-        self.pub_visualization = rospy.Publisher("/legs_position", MarkerArray, queue_size=10)
-        self.pub_gripper_command = rospy.Publisher("/gripper_command", String, queue_size=1)
-        self.raw_laser_data = LaserScan()
-        self.filtered_laser_data = LaserScan()
-        self.ref_cart_leg_position = [[0.25, 0.67], [-0.2, 0.65]]
-        self.legs = []
-        self.position = Twist()
-        self.position_thresh_hold = 0.05
+        # Visualization topics:
+        self.visual_points = rospy.Publisher("/visual_points", MarkerArray, queue_size=10)
+        self.visual_laser_msg = rospy.Publisher("/visual_laser_msg", LaserScan, queue_size=1)
 
-    def get_dataset(self):
-        # convert scanned distance data to coordinate x,y data list
-        self.dataset = []
-        if self.filtered_laser_data:
-            self.filtered_pc_msg = self.lp.projectLaser(self.filtered_laser_data)
-            point_list = pc2.read_points_list(self.filtered_pc_msg)
-            # add x, y coordinates in operating data due to z equals to Zero
-            for i in point_list:
-                self.dataset.append([i.x, i.y])
-        # print(self.dataset)
+        # The cart status:
+        self.ref_cart_legs=[[0.64, 0.22],
+                            [1.2, -0.21],
+                            [0.64, -0.21],
+                            [1.2, 0.22]]
+        self.the_cart = False
+        self.cart_legs=[]
+        self.cart_area = 0.2
 
-    def standing_position(self):
-        # return standing position of robot for grasping the cart
-        position = []
-        self.legs = []
-        # K-mean clustering self.dataset
-        if len(self.dataset) >= 4:
-            kmeans = KMeans(n_clusters=4, random_state=0).fit(self.dataset)
-            self.legs = kmeans.cluster_centers_
-            self.legs.sort()
-            position.append((self.legs[0][1]+self.legs[1][1])/2)
-            position.append((self.legs[0][0]+self.legs[1][0])/2)
-        # Trick with legs data
-        if self.legs[0][0] < self.ref_cart_leg_position[0][0] and self.legs[0][1] < self.ref_cart_leg_position[0][1]:
+        # Robot status:
+        self.current_position = Odometry()
+        self.standing_position = []
 
-            if self.legs[2][0] > self.ref_cart_leg_position[1][0] and self.legs[2][1] < self.ref_cart_leg_position[1][1]:
+        # Handlers and feedback data:
+        self.filtered_laser_msg = LaserScan()
+        self.laser_projection = lg.LaserProjection()
+        self.sss = simple_script_server()
 
-                print("============222222")
-                self.pub_gripper_command.publish("Closed")
+    def drive_arms_ready(self):
+        self.sss.init('arm_left')
+        self.sss.init('arm_right')
+        self.sss.sleep(1.0)
+        self.sss.move("arm_right", "ready")
+        self.sss.sleep(2.0)
+        self.sss.move("arm_left", "ready")
 
-        print(self.legs[0][1])
-        print("=========")
-        print(self.ref_cart_leg_position[0][1])
-        print("//////")
+    def open_grippers(self):
+        self.sss.init('gripper_right')
+        self.sss.init('gripper_left')
+        self.sss.sleep(1.0)
+        self.sss.move("gripper_left", "open")
+        self.sss.sleep(1.0)
+        self.sss.move("gripper_right", "open")
 
-        # Visualize legs
-        self.visual(self.legs, 1)
-        # self.visual(self.legs[3], 2)
-        # Publish filter scan data
-        self.pub_position.publish(self.position)
+    def close_grippers(self):
+        self.sss.init('gripper_right')
+        self.sss.init('gripper_left')
+        self.sss.sleep(1.0)
+        self.sss.move("gripper_left", "close")
+        self.sss.sleep(1.0)
+        self.sss.move("gripper_right", "close")
 
-    def filter_cart(self, laser_ranges):
-        # Filter the cart
+    def handle_laser_msg(self, msg):
+        self.filtered_laser_msg = msg
+        # Only get data inside scnning radius of 1.1 meter
         ranges_list = np.array([])
-        for i in laser_ranges:
-            range = i
-            if str(i) != "nan":
-                if i > 1.1:
-                    range = np.nan
+        for i in self.filtered_laser_msg.ranges:
+            range = np.nan
+            if 234 < self.filtered_laser_msg.ranges.index(i) < 318:
+                if str(i) != "nan":
+                    if i < 1.3:
+                        range = i
             ranges_list = np.append(ranges_list, range)
-        return ranges_list
+        # Update laser msg and visualize in Rviz
+        self.filtered_laser_msg.ranges = ranges_list
+        self.visualization(self.filtered_laser_msg, "laser")
+        self.detect_cart_legs()
 
-    def callback(self, msg):
-        # Initial output message same structure as input message
-        self.raw_laser_data = msg
-        self.filtered_laser_data = msg
-        # Update output msg with filtered ranges
-        self.filtered_laser_data.ranges = self.filter_cart(self.raw_laser_data.ranges)
-        # Update dataset
-        self.get_dataset()
-        # Desire standing position of robot
-        self.standing_position()
+    def detect_cart_legs(self):
+        # convert the message of type LaserScan to a PointCloud2
+        pc2_msg = self.laser_projection.projectLaser(self.filtered_laser_msg)
+        point_list = pc2.read_points_list(pc2_msg)
+        dataset = []
+        legs = [[np.nan, np.nan],
+                [np.nan, np.nan],
+                [np.nan, np.nan],
+                [np.nan, np.nan]]
+        for i in point_list:
+            dataset.append([i.x, i.y])
+        # K-mean clustering the dataset to get center of each leg:
+        if len(dataset) >= 4:
+            kmeans = KMeans(n_clusters=4, random_state=0).fit(dataset)
+            legs = kmeans.cluster_centers_
+        print(legs)
 
-    def visual(self, legs, type):
-        #Visualize legs for testing
-        if type == 1:
-            markerArray = MarkerArray()
-            id = 0
+        def check_leg_position(ref, source):
+            number_of_elements = len(source)
+            number_of_true = 0
+            for i in range(number_of_elements):
+                if abs(source[i]) < abs(ref[i]):
+                    number_of_true += 1
+            if number_of_true == number_of_elements:
+                return True
+            else:
+                return False
 
-            for i in legs:
-                marker = Marker()
-                marker.header.frame_id = "/base_laser_front_link"
-                marker.type = marker.SPHERE
-                marker.action = marker.ADD
-                marker.scale.x = 0.025
-                marker.scale.y = 0.025
-                marker.scale.z = 0.025
-                marker.color.a = 1.0
-                marker.color.r = 1.0
-                marker.color.g = 0.0
-                marker.color.b = 0.0
-                marker.pose.orientation.w = 1.0
-                marker.pose.position.x = np.round(i[1], 2)
-                marker.pose.position.y = np.round(i[0], 2)
-                marker.pose.position.z = 0.0
+        # Manually check position of the cart:
+        check = 0
+        for i in range(len(legs)):
+            if check_leg_position(self.ref_cart_legs[i], legs[i]):
+                check += 1
+        if check == len(legs) and not self.the_cart:
+            self.the_cart = True
+            self.visualization(legs, "points")
+            self.close_grippers()
 
-                markerArray.markers.append(marker)
-                # Renumber the marker IDs
-                for m in markerArray.markers:
-                    m.id = id
-                    id += 1
-            self.pub_visualization.publish(markerArray)
-        else:
-            markerArray = MarkerArray()
+        rospy.loginfo("Cart detected: " + str(self.the_cart))
+        # # Check if the legs is the cart legs then define the position the robot should be at
+        # height = abs(legs[1][0] - legs[0][0])
+        # width = abs(legs[2][1] - legs[0][1])
+        # area = height * width
+        # print(height, width, area)
+        # ##  Check if detected legs form same area as real cart legs (agree with threshhold less than 0.02 squared meter)
+        # if self.cart_area - area <= 0.03:
+        #     if len(self.cart_legs)==0:
+        #         self.cart_legs = legs
+        #         self.standing_position =[[
+        #             (self.cart_legs[0][0] + self.cart_legs[2][0])/2,
+        #             (self.cart_legs[0][1] + self.cart_legs[2][1])/2]]
+        #         self.the_cart = True
+        #         # Visualize the cart in RVIZ
+        #         self.visualization(self.standing_position, "points")
+        #         self.visualization(self.cart_legs, "points")
+        # else:
+        #     self.the_cart = False
+
+    def visualization(self, data, type):
+        markerArray = MarkerArray()
+        id = 0
+
+        def marker_generator():
             marker = Marker()
             marker.header.frame_id = "/base_laser_front_link"
             marker.type = marker.SPHERE
             marker.action = marker.ADD
-            marker.scale.x = 0.05
-            marker.scale.y = 0.05
-            marker.scale.z = 0.05
+            marker.scale.x = 0.025
+            marker.scale.y = 0.025
+            marker.scale.z = 0.025
             marker.color.a = 1.0
             marker.color.r = 1.0
             marker.color.g = 0.0
             marker.color.b = 0.0
             marker.pose.orientation.w = 1.0
-            marker.pose.position.x = legs[1]
-            marker.pose.position.y = legs[0]
             marker.pose.position.z = 0.0
-            markerArray.markers.append(marker)
-            self.pub_visualization.publish(markerArray)
+            return marker
+
+        if type == "points":
+            if len(data) > 1:
+                for i in data:
+                    marker = marker_generator()
+                    marker.pose.position.x = i[0]
+                    marker.pose.position.y = i[1]
+                    markerArray.markers.append(marker)
+
+                    # Renumber the marker IDs
+                    for m in markerArray.markers:
+                        m.id = id
+                        id += 1
+            else:
+                marker = marker_generator()
+                marker.pose.position.x = data[0][0]
+                marker.pose.position.y = data[0][1]
+                markerArray.markers.append(marker)
+            self.visual_points.publish(markerArray)
+
+        if type == "laser":
+            self.visual_laser_msg.publish(data)
 
 
 if __name__ == '__main__':
-    rospy.init_node("laser_handler")
-    handler = laser_handler()
-    rospy.Subscriber("/base_laser_front/scan", LaserScan, handler.callback)
+    rospy.init_node("laser_handler_testing")
+    cob = cob_ready_state()
+
+    if not cob.the_cart:
+        cob.drive_arms_ready()
+        cob.open_grippers()
+
+    rospy.Subscriber("/base_laser_front/scan", LaserScan, cob.handle_laser_msg)
     rospy.spin()
