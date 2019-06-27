@@ -1,8 +1,17 @@
 #!/usr/bin/python
 
 import rospy
+from std_msgs.msg import String
 from simple_script_server import *
 sss = simple_script_server()
+
+
+def callback(msg):
+    if msg.data == "Closed":
+        sss.sleep(1.0)
+        sss.move("gripper_left", "close")
+        sss.sleep(1.0)
+        sss.move("gripper_right", "close")
 
 
 if __name__ == '__main__':
@@ -36,3 +45,6 @@ if __name__ == '__main__':
     # sss.move("arm_left", [[0,0,0,0,0,0,0], [0.75, 1.63, -1.41, 1.19, 0.00, -0.63, 1.59]])
     # sss.sleep(2.0)
     # sss.move("arm_right", [[0,0,0,0,0,0,0], [-0.75, -1.63, 1.41, -1.19, 0.00, 0.35, -1.53]])
+
+    rospy.Subscriber("/gripper_command", String, callback)
+    rospy.spin()
