@@ -32,7 +32,7 @@ class cob_ready_state():
 
         # Robot status:
         self.current_position = Odometry()
-        self.standing_position = []
+        # self.standing_position = []
 
         # Handlers and feedback data:
         self.filtered_laser_msg = LaserScan()
@@ -47,21 +47,19 @@ class cob_ready_state():
         self.sss.sleep(2.0)
         self.sss.move("arm_left", "ready")
 
-    def open_grippers(self):
+    def drive_grippers(self, command):
         self.sss.init('gripper_right')
         self.sss.init('gripper_left')
         self.sss.sleep(1.0)
-        self.sss.move("gripper_left", "open")
-        self.sss.sleep(1.0)
-        self.sss.move("gripper_right", "open")
+        if command == "open":
+            self.sss.move("gripper_left", "open")
+            self.sss.sleep(1.0)
+            self.sss.move("gripper_right", "open")
 
-    def close_grippers(self):
-        self.sss.init('gripper_right')
-        self.sss.init('gripper_left')
-        self.sss.sleep(1.0)
-        self.sss.move("gripper_left", "close")
-        self.sss.sleep(1.0)
-        self.sss.move("gripper_right", "close")
+        if command == "close":
+            self.sss.move("gripper_left", "close")
+            self.sss.sleep(1.0)
+            self.sss.move("gripper_right", "close")
 
     def handle_laser_msg(self, msg):
         self.filtered_laser_msg = msg
@@ -114,28 +112,20 @@ class cob_ready_state():
                 check += 1
         if check == len(legs) and not self.the_cart:
             self.the_cart = True
-            self.visualization(legs, "points")
-            self.close_grippers()
+            self.cart_legs = legs
+            self.drive_grippers("close")
 
         rospy.loginfo("Cart detected: " + str(self.the_cart))
-        # # Check if the legs is the cart legs then define the position the robot should be at
-        # height = abs(legs[1][0] - legs[0][0])
-        # width = abs(legs[2][1] - legs[0][1])
-        # area = height * width
+        # Check if the legs is the cart legs then define the position the robot should be at
+        height = abs(legs[1][0] - legs[0][0])
+        width = abs(legs[2][1] - legs[0][1])
+        area = height * width
         # print(height, width, area)
-        # ##  Check if detected legs form same area as real cart legs (agree with threshhold less than 0.02 squared meter)
-        # if self.cart_area - area <= 0.03:
-        #     if len(self.cart_legs)==0:
-        #         self.cart_legs = legs
-        #         self.standing_position =[[
-        #             (self.cart_legs[0][0] + self.cart_legs[2][0])/2,
-        #             (self.cart_legs[0][1] + self.cart_legs[2][1])/2]]
-        #         self.the_cart = True
-        #         # Visualize the cart in RVIZ
-        #         self.visualization(self.standing_position, "points")
-        #         self.visualization(self.cart_legs, "points")
-        # else:
-        #     self.the_cart = False
+        ##  Check if detected legs form same area as real cart legs (agree with threshhold less than 0.02 squared meter)
+        if self.cart_area - area > 0.02:
+            self.the_cart = False
+        # Visualize the cart in RVIZ
+        self.visualization(self.cart_legs, "points")
 
     def visualization(self, data, type):
         markerArray = MarkerArray()
@@ -186,7 +176,7 @@ if __name__ == '__main__':
 
     if not cob.the_cart:
         cob.drive_arms_ready()
-        cob.open_grippers()
+        cob.drive_grippers("open")
 
     rospy.Subscriber("/base_laser_front/scan", LaserScan, cob.handle_laser_msg)
     rospy.spin()
