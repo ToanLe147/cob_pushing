@@ -1,2 +1,0 @@
-gripper right + arm right => ready pose: -0.26, -1.63, 1.41, -0.83, 0.00, 1.76, 1.71 for in the air, make arm go down by change first element to -0.35
-gripper left + arm left => do the same with negative sign

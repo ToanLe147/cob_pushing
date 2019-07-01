@@ -43,9 +43,9 @@ if __name__ == '__main__':
     # sss.move("gripper_right", "open")
 
     # Raw code (Worked)
-    # sss.move("arm_left", [[0.33, 1.69, -1.41, 0.83, 0.00, -1.88, 1.39]])
-    # sss.sleep(2.0)
-    # sss.move("arm_right", [[-0.32, -1.69, 1.41, -0.83, 0.00, 1.70, -1.42]])
+    sss.move("arm_left", [[0.33, 1.69, -1.41, 0.83, 0.00, -1.88, 1.39]])
+    sss.sleep(2.0)
+    sss.move("arm_right", [[-0.32, -1.69, 1.41, -0.83, 0.00, 1.70, -1.42]])
 
     # Test
     # sss.move("arm_left", [[0.33, 1.69, -1.41, 0.83, 0.00, -1.00, 1.39]], False)
@@ -56,9 +56,9 @@ if __name__ == '__main__':
     # sss.sleep(1.0)
     # sss.move("gripper_right", [[0.85, 0.0]])
 
-    sss.move("gripper_left", [[-0.85, 0.0]])
-    sss.sleep(1.0)
-    sss.move("gripper_right", [[-0.85, 0.0]])
+    # sss.move("gripper_left", [[-0.85, 0.0]])
+    # sss.sleep(1.0)
+    # sss.move("gripper_right", [[-0.85, 0.0]])
 
     # rospy.Subscriber("/gripper_command", String, callback)
     # rospy.spin()
