@@ -4,4 +4,5 @@ service_ns: /gripper_left/driver
 default_acc: 0.3
 
 # single positions
-fully_open: [[0.85, 0.0]]
+fully_open: [[-0.85, 0.0]]
+fully_close: [[0.85, 0.0]]

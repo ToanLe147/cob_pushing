@@ -5,7 +5,7 @@ import sensor_msgs.point_cloud2 as pc2
 from sensor_msgs.msg import LaserScan
 from nav_msgs.msg import Odometry
 from std_msgs.msg import String
-from geometry_msgs.msg import Twist
+from geometry_msgs.msg import Twist, Polygon
 from visualization_msgs.msg import Marker
 from visualization_msgs.msg import MarkerArray
 # Import calculating and operating packages
@@ -18,24 +18,26 @@ from sklearn.cluster import KMeans
 class cob_ready_state():
     def __init__(self):
         # Visualization topics:
-        self.visual_points = rospy.Publisher("/visual_points", MarkerArray, queue_size=10)
-        self.visual_laser_msg = rospy.Publisher("/visual_laser_msg", LaserScan, queue_size=1)
+        self.visual_points = rospy.Publisher("/visual_points", Polygon, queue_size=10)
+        self.visual_laser_msg = rospy.Publisher("/cart_filtered_scan", LaserScan, queue_size=1)
+        self.visual_cart = rospy.Publisher("/isolated_cart_scan", LaserScan, queue_size=1)
 
         # The cart status:
-        self.ref_cart_legs=[[0.64, 0.22],
-                            [1.2, -0.21],
-                            [0.64, -0.21],
-                            [1.2, 0.22]]
+        self.ref_cart_legs=[[0.67, 0.22],
+                            [1.3, -0.21],
+                            [0.67, -0.21],
+                            [1.4, 0.22]]
         self.the_cart = False
         self.cart_legs=[]
         self.cart_area = 0.2
 
         # Robot status:
         self.current_position = Odometry()
-        # self.standing_position = []
+        self.standing_position = []
 
         # Handlers and feedback data:
         self.filtered_laser_msg = LaserScan()
+        self.cart_isolated_laser_msg = LaserScan()
         self.laser_projection = lg.LaserProjection()
         self.sss = simple_script_server()
 
@@ -47,39 +49,56 @@ class cob_ready_state():
         self.sss.sleep(2.0)
         self.sss.move("arm_left", "ready")
 
-    def drive_grippers(self, command):
+    def open_grippers(self):
         self.sss.init('gripper_right')
         self.sss.init('gripper_left')
         self.sss.sleep(1.0)
-        if command == "open":
-            self.sss.move("gripper_left", "open")
-            self.sss.sleep(1.0)
-            self.sss.move("gripper_right", "open")
+        self.sss.move("gripper_left", "open")
+        self.sss.sleep(1.0)
+        self.sss.move("gripper_right", "open")
 
-        if command == "close":
-            self.sss.move("gripper_left", "close")
-            self.sss.sleep(1.0)
-            self.sss.move("gripper_right", "close")
+    def close_grippers(self):
+        self.sss.init('gripper_right')
+        self.sss.init('gripper_left')
+        self.sss.sleep(1.0)
+        self.sss.move("gripper_left", "close")
+        self.sss.sleep(1.0)
+        self.sss.move("gripper_right", "close")
 
     def handle_laser_msg(self, msg):
         self.filtered_laser_msg = msg
-        # Only get data inside scnning radius of 1.1 meter
-        ranges_list = np.array([])
+        self.cart_isolated_laser_msg = msg
+        filtered_ranges_list = np.array([])
+        cart_ranges_list = np.array([])
+
+        # Only get data outside scnning radius of 1.3 meter
         for i in self.filtered_laser_msg.ranges:
-            range = np.nan
+            range_filter = i
             if 234 < self.filtered_laser_msg.ranges.index(i) < 318:
                 if str(i) != "nan":
                     if i < 1.3:
-                        range = i
-            ranges_list = np.append(ranges_list, range)
+                        range_filter = np.nan
+            filtered_ranges_list = np.append(filtered_ranges_list, range_filter)
+
+        # Only get data inside scnning radius of 1.3 meter
+        for i in self.cart_isolated_laser_msg.ranges:
+            range_temp = np.nan
+            if 234 < self.cart_isolated_laser_msg.ranges.index(i) < 318:
+                if str(i) != "nan":
+                    if i < 1.3:
+                        range_temp = i
+            cart_ranges_list = np.append(cart_ranges_list, range_temp)
+
         # Update laser msg and visualize in Rviz
-        self.filtered_laser_msg.ranges = ranges_list
-        self.visualization(self.filtered_laser_msg, "laser")
+        self.filtered_laser_msg.ranges = filtered_ranges_list
+        self.visualization(self.filtered_laser_msg, "filtered_laser")
+        self.cart_isolated_laser_msg.ranges = cart_ranges_list
+        self.visualization(self.cart_isolated_laser_msg, "isolated_cart")
         self.detect_cart_legs()
 
     def detect_cart_legs(self):
         # convert the message of type LaserScan to a PointCloud2
-        pc2_msg = self.laser_projection.projectLaser(self.filtered_laser_msg)
+        pc2_msg = self.laser_projection.projectLaser(self.cart_isolated_laser_msg)
         point_list = pc2.read_points_list(pc2_msg)
         dataset = []
         legs = [[np.nan, np.nan],
@@ -112,20 +131,10 @@ class cob_ready_state():
                 check += 1
         if check == len(legs) and not self.the_cart:
             self.the_cart = True
-            self.cart_legs = legs
-            self.drive_grippers("close")
+            self.visualization(legs, "points")
+            # self.close_grippers()
 
         rospy.loginfo("Cart detected: " + str(self.the_cart))
-        # Check if the legs is the cart legs then define the position the robot should be at
-        height = abs(legs[1][0] - legs[0][0])
-        width = abs(legs[2][1] - legs[0][1])
-        area = height * width
-        # print(height, width, area)
-        ##  Check if detected legs form same area as real cart legs (agree with threshhold less than 0.02 squared meter)
-        if self.cart_area - area > 0.02:
-            self.the_cart = False
-        # Visualize the cart in RVIZ
-        self.visualization(self.cart_legs, "points")
 
     def visualization(self, data, type):
         markerArray = MarkerArray()
@@ -149,8 +158,10 @@ class cob_ready_state():
 
         if type == "points":
             if len(data) > 1:
-                for i in data:
+                temp = np.append(data, data[0])
+                for i in temp:
                     marker = marker_generator()
+                    marker.type = marker.LINE_LIST
                     marker.pose.position.x = i[0]
                     marker.pose.position.y = i[1]
                     markerArray.markers.append(marker)
@@ -166,17 +177,20 @@ class cob_ready_state():
                 markerArray.markers.append(marker)
             self.visual_points.publish(markerArray)
 
-        if type == "laser":
+        if type == "filtered_laser":
             self.visual_laser_msg.publish(data)
+
+        if type == "isolated_cart":
+            self.visual_cart.publish(data)
 
 
 if __name__ == '__main__':
-    rospy.init_node("laser_handler_testing")
+    rospy.init_node("grasping_cart")
     cob = cob_ready_state()
 
-    if not cob.the_cart:
-        cob.drive_arms_ready()
-        cob.drive_grippers("open")
+    # if not cob.the_cart:
+    #     cob.drive_arms_ready()
+    #     cob.open_grippers()
 
     rospy.Subscriber("/base_laser_front/scan", LaserScan, cob.handle_laser_msg)
     rospy.spin()
