@@ -43,12 +43,6 @@
     <remap from="base_scan_2" to="/base_laser_right/scan_raw"/>
   </node>
 
-  <!-- <node pkg="tf" type="tf_remap" name="tf_remapper" output="screen">
-    <rosparam param="mappings">
-      [{old: /base_laser_link_0, new: /base_laser_front_link}, {old: /base_laser_link_1, new: /base_laser_left_link}, {old: /base_laser_link_2, new: /base_laser_right_link}]
-    </rosparam>
-  </node> -->
-
   <!--  ***************** COB Robot Model *****************  -->
 
   <!-- define arguments -->
@@ -68,7 +62,7 @@
   </node>
 
   <!--- Run AMCL -->
-  <include file="$(find cob_pushing)/launch/amcl_node.xml" >
+  <include file="$(find cob_pushing)/launch/includes/amcl_node.xml" >
     <arg name="use_map_topic" value="true"/>
     <arg name="initial_pose_x" value="$(arg initial_pose_x)"/>
     <arg name="initial_pose_y" value="$(arg initial_pose_y)"/>
@@ -76,7 +70,7 @@
   </include>
 
   <!--- Run move base -->
-  <include file="$(find cob_pushing)/launch/move_base.xml" >
+  <include file="$(find cob_pushing)/launch/includes/move_base.xml" >
     <arg name="robot" value="$(arg robot)"/>
   </include>
 
