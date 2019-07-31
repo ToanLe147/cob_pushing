@@ -1,4 +1,4 @@
-include "turtlebot.inc"
+include "cob4-8.inc"
 
 define floorplan model
 (
@@ -36,9 +36,10 @@ floorplan
 )
 
 # throw in a robot
-turtlebot
+cob4-8
 (
   pose [ 2.0 2.0 0.0 0.0 ]
-  name "turtlebot"
-  color "black"
+  name "cob4-8"
+  color "blue"
 )
+

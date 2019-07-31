@@ -1,27 +1,25 @@
-<!-- 
-  Turtlebot navigation simulation:
+<!--
+  COB navigation simulation:
   - stage
+  - cob4-8.xml
   - map_server
-  - move_base
   - static map
   - amcl
+  - move_base
   - rviz view
  -->
 <launch>
-  <arg name="base"       default="$(optenv TURTLEBOT_BASE kobuki)"/>  <!-- create, rhoomba -->
-  <arg name="stacks"     default="$(optenv TURTLEBOT_STACKS hexagons)"/>  <!-- circles, hexagons -->
-  <arg name="3d_sensor"  default="$(optenv TURTLEBOT_3D_SENSOR kinect)"/>  <!-- kinect, asus_xtion_pro -->
 
   <!-- Name of the map to use (without path nor extension) and initial position -->
   <arg name="world_file" default="$(find cob_pushing)/map/stage/tuas.world"/>
   <arg name="map_file" default="$(find cob_pushing)/map/stage/map.yaml"/>
-  <arg name="initial_pose_x" default="3.14"/>
-  <arg name="initial_pose_y" default="3.83"/>
-  <arg name="initial_pose_a" default="0.0"/>
+  <arg name="initial_pose_x" default="1.17"/>
+  <arg name="initial_pose_y" default="0.6"/>
+  <arg name="initial_pose_a" default="90.0"/>
 
   <param name="/use_sim_time" value="true"/>
   <!--  ******************** Stage ********************  -->
-  <!-- 
+  <!--
         Publishes transforms:
           /base_link -> /base_laser
           /base_footprint -> /base_link (identity)
@@ -34,48 +32,54 @@
           base_watchdog_timeout : time (s) after receiving the last command on cmd_vel before stopping the robot
         Args:
           -g : run in headless mode.
-  --> 
+  -->
   <node pkg="stage_ros" type="stageros" name="stageros" args="$(arg world_file)">
     <param name="base_watchdog_timeout" value="0.5"/>
-    <remap from="odom" to="odom"/>
+    <remap from="odom" to="/base/odometry_controller/odometry"/>
+    <remap from="cmd_vel" to="/base/twist_mux/command_navigation"/>
     <remap from="base_pose_ground_truth" to="base_pose_ground_truth"/>
-    <remap from="cmd_vel" to="mobile_base/commands/velocity"/>
-    <remap from="base_scan" to="scan"/>
+    <remap from="base_scan_0" to="/base_laser_front/scan_raw"/>
+    <remap from="base_scan_1" to="/base_laser_left/scan_raw"/>
+    <remap from="base_scan_2" to="/base_laser_right/scan_raw"/>
   </node>
 
-  <!--  ***************** Robot Model *****************  -->
-  <include file="$(find turtlebot_bringup)/launch/includes/robot.launch.xml">
-    <arg name="base" value="$(arg base)" />
-    <arg name="stacks" value="$(arg stacks)" />
-    <arg name="3d_sensor" value="$(arg 3d_sensor)" />
+  <!-- <node pkg="tf" type="tf_remap" name="tf_remapper" output="screen">
+    <rosparam param="mappings">
+      [{old: /base_laser_link_0, new: /base_laser_front_link}, {old: /base_laser_link_1, new: /base_laser_left_link}, {old: /base_laser_link_2, new: /base_laser_right_link}]
+    </rosparam>
+  </node> -->
+
+  <!--  ***************** COB Robot Model *****************  -->
+
+  <!-- define arguments -->
+  <arg name="robot" default="$(optenv ROBOT !!NO_ROBOT_SET!!)"/>
+  <arg name="robot_env" default="$(optenv ROBOT_ENV !!NO_ROBOT_ENV_SET!!)"/>
+  <arg name="paused" default="false"/>
+  <arg name="initial_config" default=""/>
+
+  <!-- upload default configuration parameters -->
+  <include file="$(find cob_pushing)/robots/$(arg robot)/config/test_$(arg robot).xml" >
+    <arg name="sim" value="true" />
   </include>
-  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
-    <param name="use_gui" value="true"/>
-  </node>
-
-  <!-- Command Velocity multiplexer -->
-  <node pkg="nodelet" type="nodelet" name="mobile_base_nodelet_manager" args="manager"/>
-  <node pkg="nodelet" type="nodelet" name="cmd_vel_mux" args="load yocs_cmd_vel_mux/CmdVelMuxNodelet mobile_base_nodelet_manager">
-    <param name="yaml_cfg_file" value="$(find turtlebot_bringup)/param/mux.yaml"/>
-    <remap from="cmd_vel_mux/output" to="mobile_base/commands/velocity"/>
-  </node>
-
-  <!--  ************** Navigation  ***************  -->
-  <include file="$(find turtlebot_navigation)/launch/includes/move_base.launch.xml"/>
 
   <!--  ****** Maps *****  -->
-  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)">
-    <param name="frame_id" value="/map"/>
-  </node>
+  <!-- <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)">
+    <param name="frame_id" value="map"/>
+  </node> -->
 
-  <include file="$(find turtlebot_navigation)/launch/includes/amcl/amcl.launch.xml">
-    <arg name="scan_topic" value="scan"/>
+  <!--- Run AMCL -->
+  <!-- <include file="$(find cob_pushing)/launch/amcl_node.xml" >
     <arg name="use_map_topic" value="true"/>
     <arg name="initial_pose_x" value="$(arg initial_pose_x)"/>
     <arg name="initial_pose_y" value="$(arg initial_pose_y)"/>
     <arg name="initial_pose_a" value="$(arg initial_pose_a)"/>
-  </include>
+  </include> -->
+
+  <!--- Run move base -->
+  <!-- <include file="$(find cob_pushing)/launch/move_base.xml" >
+    <arg name="robot" value="$(arg robot)"/>
+  </include> -->
 
   <!--  **************** Visualisation ****************  -->
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find cob_pushing)/rviz/robot_navigation.rviz"/>
+  <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find cob_pushing)/rviz/cob_rviz.rviz"/> -->
 </launch>

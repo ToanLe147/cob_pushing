@@ -7,7 +7,7 @@ robot_base_frame: base_footprint # default: "base_link"
 # The frequency in Hz for the map to be updated
 update_frequency: 4.0 # default: 5.0
 
-# The frequency in Hz for the map to be publish display information. 
+# The frequency in Hz for the map to be publish display information.
 publish_frequency: 2.0 # default: 0.0
 
 # Whether or not to use a rolling window version of the costmap
@@ -25,9 +25,9 @@ static_map: false # default: true
 
 # The list of all the costmap layers that will be loaded
 plugins:
-# The obstacle layer tracks the obstacles as read by the sensor data. The ObstacleCostmapPlugin marks and 
-# raytraces obstacles in two dimensions, while the VoxelCostmapPlugin does so in three dimensions. 
+# The obstacle layer tracks the obstacles as read by the sensor data. The ObstacleCostmapPlugin marks and
+# raytraces obstacles in two dimensions, while the VoxelCostmapPlugin does so in three dimensions.
 - {name: obstacle_layer, type: "costmap_2d::VoxelLayer"}
-# The inflation layer is an optimization that adds new values around lethal obstacles (i.e. inflates the obstacles) 
-# in order to make the costmap represent the configuration space of the robot. 
+# The inflation layer is an optimization that adds new values around lethal obstacles (i.e. inflates the obstacles)
+# in order to make the costmap represent the configuration space of the robot.
 - {name: inflation_layer, type: "costmap_2d::InflationLayer"}

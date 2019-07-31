@@ -1,4 +1,4 @@
-include "cob4-8.inc"
+include "turtlebot.inc"
 
 define floorplan model
 (
@@ -21,30 +21,25 @@ interval_sim 100  # simulation timestep in milliseconds
 
 window
 (
-  size [ 600 420 ]
-  center [ 13.776 5.724 ]
-  rotate [ 0.000 0.000 ]
-  scale 7.513
+  size [ 600.0 420 ]
+  center [ 0.0 0.0 ]
+  rotate [ 0.0 0.0 ]
+  scale 11.0
 )
 
 floorplan
 (
   name "tuas"
   bitmap "map.pgm"
-  size [ 55.000 38.500 2.000 ]
-  pose [ 0.000 0.000 0.000 0.000 ]
+  size [ 55.0 38.5 2.0 ]
+  pose [ 0.0 0.0 0.0 0.0 ]
 )
 
 # throw in a robot
-cob4-8
+# throw in a robot
+turtlebot
 (
-  pose [ 4.741 1.556 0.000 97.552 ]
-  name "cob4-8"
-  color "blue"
-)
-cart
-(
-    pose [ -1.880 -2.195 0.000 0.000 ]
-    name "cart"
-    color "green"
+  pose [ 5.09 2.31 0.0 90.0 ]
+  name "turtlebot"
+  color "black"
 )

@@ -1,10 +1,11 @@
 <!--
-  Turtlebot navigation simulation:
+  COB navigation simulation:
   - stage
+  - cob4-8.xml
   - map_server
-  - move_base
   - static map
   - amcl
+  - move_base
   - rviz view
  -->
 <launch>
@@ -12,9 +13,9 @@
   <!-- Name of the map to use (without path nor extension) and initial position -->
   <arg name="world_file" default="$(find cob_pushing)/map/stage/tuas.world"/>
   <arg name="map_file" default="$(find cob_pushing)/map/stage/map.yaml"/>
-  <arg name="initial_pose_x" default="30.55"/>
-  <arg name="initial_pose_y" default="21.87"/>
-  <arg name="initial_pose_a" default="0.0"/>
+  <arg name="initial_pose_x" default="1.17"/>
+  <arg name="initial_pose_y" default="0.6"/>
+  <arg name="initial_pose_a" default="90.0"/>
 
   <param name="/use_sim_time" value="true"/>
   <!--  ******************** Stage ********************  -->
@@ -34,10 +35,19 @@
   -->
   <node pkg="stage_ros" type="stageros" name="stageros" args="$(arg world_file)">
     <param name="base_watchdog_timeout" value="0.5"/>
-    <remap from="odom" to="odom"/>
+    <remap from="odom" to="/base/odometry_controller/odometry"/>
+    <remap from="cmd_vel" to="/base/twist_mux/command_navigation"/>
     <remap from="base_pose_ground_truth" to="base_pose_ground_truth"/>
-    <remap from="base_scan" to="scan"/>
+    <remap from="base_scan_0" to="/base_laser_front/scan_raw"/>
+    <remap from="base_scan_1" to="/base_laser_left/scan_raw"/>
+    <remap from="base_scan_2" to="/base_laser_right/scan_raw"/>
   </node>
+
+  <!-- <node pkg="tf" type="tf_remap" name="tf_remapper" output="screen">
+    <rosparam param="mappings">
+      [{old: /base_laser_link_0, new: /base_laser_front_link}, {old: /base_laser_link_1, new: /base_laser_left_link}, {old: /base_laser_link_2, new: /base_laser_right_link}]
+    </rosparam>
+  </node> -->
 
   <!--  ***************** COB Robot Model *****************  -->
 
@@ -48,7 +58,7 @@
   <arg name="initial_config" default=""/>
 
   <!-- upload default configuration parameters -->
-  <include file="$(find cob_bringup)/robots/$(arg robot).xml" >
+  <include file="$(find cob_pushing)/robots/$(arg robot)/config/$(arg robot).xml" >
     <arg name="sim" value="true" />
   </include>
 

@@ -11,20 +11,20 @@ if __name__ == '__main__':
     sss.init('arm_left')
     sss.init('arm_right')
     sss.init('gripper_right')
-    # sss.init('gripper_left')
+    sss.init('gripper_left')
 
     #=================== TEST ==================
-    sss.move("gripper_right", [[0.68, -0.11]])
+    # sss.move("gripper_right", [[0.68, -0.11]])
     #===========================================
 
     # Go to home position
-    # sss.move("arm_left", "side")
-    # sss.sleep(2.0)
-    # sss.move("arm_right", "side")
-    # sss.sleep(1.0)
-    # sss.move("gripper_left", "close")
-    # sss.sleep(1.0)
-    # sss.move("gripper_right", "close")
+    sss.move("arm_left", "side")
+    sss.sleep(2.0)
+    sss.move("arm_right", "side")
+    sss.sleep(1.0)
+    sss.move("gripper_left", "close")
+    sss.sleep(1.0)
+    sss.move("gripper_right", "close")
 
     # Go to pushing cart position
     # Using launch and custom yaml for arm positions
