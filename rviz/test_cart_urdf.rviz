@@ -7,7 +7,6 @@ Panels:
         - /Global Options1
         - /Status1
         - /RobotModel1
-        - /RobotModel1/Status1
         - /RobotModel1/Links1
       Splitter Ratio: 0.5
     Tree Height: 565
@@ -63,91 +62,91 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        back_left_caster:
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        chassis_middle:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        back_left_leg:
+        chassis_top:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        back_left_wheel:
+        handler_bar:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        back_right_caster:
+        left_back_caster:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        back_right_leg:
+        left_back_leg:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        back_right_wheel:
+        left_back_wheel:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        base:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        bottom:
+        left_front_caster:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        front_left_caster:
+        left_front_leg:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        front_left_leg:
+        left_front_wheel:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        front_left_wheel:
+        left_handler:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        front_right_caster:
+        right_back_caster:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        front_right_leg:
+        right_back_leg:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        front_right_wheel:
+        right_back_wheel:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        handle:
+        right_front_caster:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        handle_lmt:
+        right_front_leg:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        handle_rmt:
+        right_front_wheel:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        top:
+        right_handler:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -162,7 +161,7 @@ Visualization Manager:
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: base
+    Fixed Frame: base_link
     Frame Rate: 30
   Name: root
   Tools:

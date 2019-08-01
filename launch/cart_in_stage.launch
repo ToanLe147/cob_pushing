@@ -7,10 +7,13 @@
  -->
 <launch>
 
+  <arg name="world_file" default="$(find cob_pushing)/map/stage/tuas.world"/>
   <arg name="develop" default="true"/>
+  <param name="/use_sim_time" value="true"/>
+
   <!--  ****** Cart params *****  -->
   <!-- <param name="cart_description" command="$(find xacro)/xacro '$(find cob_pushing)/robots/cart/cart.urdf.xarco'" /> -->
-  <rosparam file="$(find cob_pushing)/robots/cart/own_cart.urdf" command="load" ns="cart_description"/>
+  <rosparam file="$(find cob_pushing)/robots/cart/cart.urdf" command="load" ns="cart_description"/>
 
   <!--  ****** Cart estimation *****  -->
   <!-- <node pkg="cob_pushing" type="fake_cart_joint_state_publisher.py" name="fake_cart_joint_state_publisher" args="" output="screen" /> -->
@@ -26,6 +29,24 @@
   <!--  **************** Visualisation ****************  -->
   <group if="$(arg develop)">
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find cob_pushing)/rviz/test_cart_urdf.rviz"/>
+    <!--  ******************** Stage ********************  -->
+    <!--
+          Publishes transforms:
+            /base_link -> /base_laser
+            /base_footprint -> /base_link (identity)
+            /odom -> base_footprint
+          Publishes topics:
+            /odom : odometry data from the simulated odometry
+            /base_scan : laser data from the simulated laser
+            /base_pose_ground_truth : the ground truth pose
+          Parameters:
+            base_watchdog_timeout : time (s) after receiving the last command on cmd_vel before stopping the robot
+          Args:
+            -g : run in headless mode.
+    -->
+    <node pkg="stage_ros" type="stageros" name="stageros" args="$(arg world_file)">
+      <param name="base_watchdog_timeout" value="0.5"/>
+    </node>
   </group>
 
 </launch>

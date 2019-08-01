@@ -37,9 +37,3 @@ define cob4-8 position
   sick_s300(pose [ 0.122 0.21131 -1.37142 120.0 ])
   sick_s300(pose [ 0.122 -0.21131 -1.37142 -120.0 ])
 )
-
-define cart model
-(
-  size [0.44 0.43 0.765]
-  gui_nose 0
-)

@@ -1,0 +1,397 @@
+<?xml version="1.0" ?>
+<robot name="Cart">
+
+    <link name="base_link">
+        <inertial>
+            <mass value="0.1"/>
+            <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+        </inertial>
+    </link>
+
+    <!-- CHASSIS -->
+    <joint name="chassis_middle_base_link" type="fixed">
+        <origin rpy="0 0 0" xyz="0 0 .45"/>
+        <parent link="base_link"/>
+        <child link="chassis_middle"/>
+    </joint>
+    <link name="chassis_middle">
+        <visual>
+            <geometry>
+                <box  size=".43 .44 .02"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <material name="gray">
+                <color rgba="0.7 0.7 0.7 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box  size=".43 .44 .02"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="chassis_top_base_link" type="fixed">
+        <origin rpy="0 0 0" xyz="0 0 .765"/>
+        <parent link="base_link"/>
+        <child link="chassis_top"/>
+    </joint>
+    <link name="chassis_top">
+        <visual>
+            <geometry>
+                <box  size=".43 .44 .02"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <material name="gray">
+                <color rgba="0.7 0.7 0.7 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box  size=".43 .44 .02"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <!-- LEGS -->
+    <joint name="lf_leg_chassis_top" type="fixed">
+        <origin rpy="0 0 0" xyz="0.215 0.22 0"/>
+        <parent link="chassis_top"/>
+        <child link="left_front_leg"/>
+    </joint>
+    <link name="left_front_leg">
+        <visual>
+            <geometry>
+                <cylinder  length="0.655" radius="0.02"/>
+            </geometry>
+            <origin rpy="0.0 0.0 0.0" xyz="0 0 -.3275"/>
+            <material name="black">
+                <color rgba="0.0 0.0 0.0 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder  length="0.655" radius="0.02"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="rf_leg_chassis_top" type="fixed">
+        <origin rpy="0 0 0" xyz="0.215 -0.22 0"/>
+        <parent link="chassis_top"/>
+        <child link="right_front_leg"/>
+    </joint>
+    <link name="right_front_leg">
+        <visual>
+            <geometry>
+                <cylinder  length="0.655" radius="0.02"/>
+            </geometry>
+            <origin rpy="0.0 0.0 0.0" xyz="0 0 -.3275"/>
+            <material name="black">
+                <color rgba="0.0 0.0 0.0 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder  length="0.655" radius="0.02"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="lb_leg_chassis_top" type="fixed">
+        <origin rpy="0 0 0" xyz="-0.215 0.22 0"/>
+        <parent link="chassis_top"/>
+        <child link="left_back_leg"/>
+    </joint>
+    <link name="left_back_leg">
+        <visual>
+            <geometry>
+                <cylinder  length="0.655" radius="0.02"/>
+            </geometry>
+            <origin rpy="0.0 0.0 0.0" xyz="0 0 -.3275"/>
+            <material name="black">
+                <color rgba="0.0 0.0 0.0 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder  length="0.655" radius="0.02"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="rb_leg_chassis_top" type="fixed">
+        <origin rpy="0 0 0" xyz="-0.215 -0.22 0"/>
+        <parent link="chassis_top"/>
+        <child link="right_back_leg"/>
+    </joint>
+    <link name="right_back_leg">
+        <visual>
+            <geometry>
+                <cylinder  length="0.655" radius="0.02"/>
+            </geometry>
+            <origin rpy="0.0 0.0 0.0" xyz="0 0 -.3275"/>
+            <material name="black">
+                <color rgba="0.0 0.0 0.0 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder  length="0.655" radius="0.02"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <!-- HANDLER -->
+    <joint name="right_handler_chassis_top" type="fixed">
+        <origin rpy="0 -1.18 0" xyz="-0.215 -0.22 0"/>
+        <parent link="chassis_top"/>
+        <child link="right_handler"/>
+    </joint>
+    <link name="right_handler">
+        <visual>
+            <geometry>
+                <cylinder  length="0.2" radius="0.02"/>
+            </geometry>
+            <origin rpy="0.0 0.0 0.0" xyz="0 0 .1"/>
+            <material name="black">
+                <color rgba="0.0 0.0 0.0 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder  length="0.2" radius="0.02"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="left_handler_chassis_top" type="fixed">
+        <origin rpy="0 -1.18 0" xyz="-0.215 0.22 0"/>
+        <parent link="chassis_top"/>
+        <child link="left_handler"/>
+    </joint>
+    <link name="left_handler">
+        <visual>
+            <geometry>
+                <cylinder  length="0.2" radius="0.02"/>
+            </geometry>
+            <origin rpy="0.0 0.0 0.0" xyz="0 0 .1"/>
+            <material name="black">
+                <color rgba="0.0 0.0 0.0 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder  length="0.2" radius="0.02"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="handler_bar_joint" type="fixed">
+        <origin rpy="1.57 0 0" xyz="0 0 0.2"/>
+        <parent link="left_handler"/>
+        <child link="handler_bar"/>
+    </joint>
+    <link name="handler_bar">
+        <visual>
+            <geometry>
+                <cylinder  length="0.43" radius="0.02"/>
+            </geometry>
+            <origin rpy="0.0 0.0 0.0" xyz="0 0 .215"/>
+            <material name="black">
+                <color rgba="0.0 0.0 0.0 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder  length="0.43" radius="0.02"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <!-- CASTERS AND WHEELS -->
+    <joint name="lf_caster_joint" type="continuous">
+        <origin rpy="0 0 0" xyz="0 0 -0.655"/>
+        <parent link="left_front_leg"/>
+        <child link="left_front_caster"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+    <link name="left_front_caster">
+        <visual>
+            <geometry>
+                <cylinder  length="0.05" radius="0.024"/>
+            </geometry>
+            <origin rpy="0.0 0.0 0.0" xyz="0 0 -0.025"/>
+            <material name="darkgray">
+                <color rgba="0.3 0.3 0.3 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder  length="0.05" radius="0.024"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="lf_wheel_joint" type="continuous">
+        <origin rpy="0 0 0" xyz="-0.05 0 -0.05"/>
+        <parent link="left_front_caster"/>
+        <child link="left_front_wheel"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+    <link name="left_front_wheel">
+        <visual>
+            <geometry>
+                <cylinder  length="0.024" radius="0.055"/>
+            </geometry>
+            <origin rpy="-1.57 0.0 0.0" xyz="0 0 0"/>
+            <material name="darkgray">
+                <color rgba="0.3 0.3 0.3 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder  length="0.024" radius="0.055"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="rf_caster_joint" type="continuous">
+        <origin rpy="0 0 0" xyz="0 0 -0.655"/>
+        <parent link="right_front_leg"/>
+        <child link="right_front_caster"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+    <link name="right_front_caster">
+        <visual>
+            <geometry>
+                <cylinder  length="0.05" radius="0.024"/>
+            </geometry>
+            <origin rpy="0.0 0.0 0.0" xyz="0 0 -0.025"/>
+            <material name="darkgray">
+                <color rgba="0.3 0.3 0.3 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder  length="0.05" radius="0.024"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="rf_wheel_joint" type="continuous">
+        <origin rpy="0 0 0" xyz="-0.05 0 -0.05"/>
+        <parent link="right_front_caster"/>
+        <child link="right_front_wheel"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+    <link name="right_front_wheel">
+        <visual>
+            <geometry>
+                <cylinder  length="0.024" radius="0.055"/>
+            </geometry>
+            <origin rpy="-1.57 0.0 0.0" xyz="0 0 0"/>
+            <material name="darkgray">
+                <color rgba="0.3 0.3 0.3 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder  length="0.024" radius="0.055"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="lb_caster_joint" type="continuous">
+        <origin rpy="0 0 0" xyz="0 0 -0.655"/>
+        <parent link="left_back_leg"/>
+        <child link="left_back_caster"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+    <link name="left_back_caster">
+        <visual>
+            <geometry>
+                <cylinder  length="0.05" radius="0.024"/>
+            </geometry>
+            <origin rpy="0.0 0.0 0.0" xyz="0 0 -0.025"/>
+            <material name="darkgray">
+                <color rgba="0.3 0.3 0.3 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder  length="0.05" radius="0.024"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="lb_wheel_joint" type="continuous">
+        <origin rpy="0 0 0" xyz="-0.05 0 -0.05"/>
+        <parent link="left_back_caster"/>
+        <child link="left_back_wheel"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+    <link name="left_back_wheel">
+        <visual>
+            <geometry>
+                <cylinder  length="0.024" radius="0.055"/>
+            </geometry>
+            <origin rpy="-1.57 0.0 0.0" xyz="0 0 0"/>
+            <material name="darkgray">
+                <color rgba="0.3 0.3 0.3 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder  length="0.024" radius="0.055"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="rb_caster_joint" type="continuous">
+        <origin rpy="0 0 0" xyz="0 0 -0.655"/>
+        <parent link="right_back_leg"/>
+        <child link="right_back_caster"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+    <link name="right_back_caster">
+        <visual>
+            <geometry>
+                <cylinder  length="0.05" radius="0.024"/>
+            </geometry>
+            <origin rpy="0.0 0.0 0.0" xyz="0 0 -0.025"/>
+            <material name="darkgray">
+                <color rgba="0.3 0.3 0.3 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder  length="0.05" radius="0.024"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="rb_wheel_joint" type="continuous">
+        <origin rpy="0 0 0" xyz="-0.05 0 -0.05"/>
+        <parent link="right_back_caster"/>
+        <child link="right_back_wheel"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+    <link name="right_back_wheel">
+        <visual>
+            <geometry>
+                <cylinder  length="0.024" radius="0.055"/>
+            </geometry>
+            <origin rpy="-1.57 0.0 0.0" xyz="0 0 0"/>
+            <material name="darkgray">
+                <color rgba="0.3 0.3 0.3 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder  length="0.024" radius="0.055"/>
+            </geometry>
+        </collision>
+    </link>
+
+</robot>
