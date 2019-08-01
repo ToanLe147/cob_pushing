@@ -17,7 +17,7 @@
     <link name="chassis_middle">
         <visual>
             <geometry>
-                <box  size=".43 .44 .02"/>
+                <box  size=".44 .43 .02"/>
             </geometry>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <material name="gray">
@@ -26,7 +26,7 @@
         </visual>
         <collision>
             <geometry>
-                <box  size=".43 .44 .02"/>
+                <box  size=".44 .43 .02"/>
             </geometry>
         </collision>
     </link>
@@ -39,7 +39,7 @@
     <link name="chassis_top">
         <visual>
             <geometry>
-                <box  size=".43 .44 .02"/>
+                <box  size=".44 .43 .02"/>
             </geometry>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <material name="gray">
@@ -48,14 +48,14 @@
         </visual>
         <collision>
             <geometry>
-                <box  size=".43 .44 .02"/>
+                <box  size=".44 .43 .02"/>
             </geometry>
         </collision>
     </link>
 
     <!-- LEGS -->
     <joint name="lf_leg_chassis_top" type="fixed">
-        <origin rpy="0 0 0" xyz="0.215 0.22 0"/>
+        <origin rpy="0 0 0" xyz="0.22 0.215 0"/>
         <parent link="chassis_top"/>
         <child link="left_front_leg"/>
     </joint>
@@ -77,7 +77,7 @@
     </link>
 
     <joint name="rf_leg_chassis_top" type="fixed">
-        <origin rpy="0 0 0" xyz="0.215 -0.22 0"/>
+        <origin rpy="0 0 0" xyz="0.22 -0.215 0"/>
         <parent link="chassis_top"/>
         <child link="right_front_leg"/>
     </joint>
@@ -99,7 +99,7 @@
     </link>
 
     <joint name="lb_leg_chassis_top" type="fixed">
-        <origin rpy="0 0 0" xyz="-0.215 0.22 0"/>
+        <origin rpy="0 0 0" xyz="-0.22 0.215 0"/>
         <parent link="chassis_top"/>
         <child link="left_back_leg"/>
     </joint>
@@ -121,7 +121,7 @@
     </link>
 
     <joint name="rb_leg_chassis_top" type="fixed">
-        <origin rpy="0 0 0" xyz="-0.215 -0.22 0"/>
+        <origin rpy="0 0 0" xyz="-0.22 -0.215 0"/>
         <parent link="chassis_top"/>
         <child link="right_back_leg"/>
     </joint>
@@ -144,7 +144,7 @@
 
     <!-- HANDLER -->
     <joint name="right_handler_chassis_top" type="fixed">
-        <origin rpy="0 -1.18 0" xyz="-0.215 -0.22 0"/>
+        <origin rpy="0 -1.18 0" xyz="-0.22 -0.215 0"/>
         <parent link="chassis_top"/>
         <child link="right_handler"/>
     </joint>
@@ -166,7 +166,7 @@
     </link>
 
     <joint name="left_handler_chassis_top" type="fixed">
-        <origin rpy="0 -1.18 0" xyz="-0.215 0.22 0"/>
+        <origin rpy="0 -1.18 0" xyz="-0.22 0.215 0"/>
         <parent link="chassis_top"/>
         <child link="left_handler"/>
     </joint>
