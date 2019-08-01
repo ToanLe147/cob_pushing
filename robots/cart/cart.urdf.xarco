@@ -1,0 +1,278 @@
+<?xml version="1.0"?>
+<robot name="continuous_pendulum"
+       xmlns:xi="http://www.w3.org/2001/XInclude"
+       xmlns:gazebo="http://playerstage.sourceforge.net/gazebo/xmlschema/#gz"
+       xmlns:model="http://playerstage.sourceforge.net/gazebo/xmlschema/#model"
+       xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+       xmlns:body="http://playerstage.sourceforge.net/gazebo/xmlschema/#body"
+       xmlns:geom="http://playerstage.sourceforge.net/gazebo/xmlschema/#geom"
+       xmlns:joint="http://playerstage.sourceforge.net/gazebo/xmlschema/#joint"
+       xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+       xmlns:rendering="http://playerstage.sourceforge.net/gazebo/xmlschema/#rendering"
+       xmlns:renderable="http://playerstage.sourceforge.net/gazebo/xmlschema/#renderable"
+       xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+       xmlns:xacro="http://ros.org/wiki/xacro"
+       xmlns:physics="http://playerstage.sourceforge.net/gazebo/xmlschema/#physics">
+
+  <xacro:property name="M_PI" value="3.1415926535897931" />
+
+  <xacro:property name="cart_width" value="0.42" />
+  <xacro:property name="cart_length" value="0.7" />
+
+  <xacro:property name="shelf_thickness" value="0.06" />
+  <xacro:property name="top_height" value="0.3" />
+
+  <xacro:property name="handle_radius" value="0.02" />
+  <xacro:property name="handle_length" value="0.4" />
+  <xacro:property name="leg_radius" value="0.02" />
+
+  <xacro:property name="caster_height" value="0.05" />
+  <xacro:property name="caster_radius" value="0.025" />
+
+  <xacro:property name="wheel_radius" value="0.05" />
+  <xacro:property name="wheel_width" value="0.02" />
+  <xacro:property name="wheel_height" value="0.1" />
+  <xacro:property name="wheel_offset" value="0.05" />
+
+  <xacro:property name="black" value="0 0 0 0.7" />
+  <xacro:property name="silver" value="0.8 0.8 0.8 0.7" />
+  <xacro:property name="steel" value="0.4 0.4 0.4 0.7" />
+
+  <xacro:macro name="cart_caster" params="prefix parent color radius height top_offset *origin">
+    <!--
+       prefix = caster name ["front_left"]
+       color = an rgba tuple "155 155 155 0.7"
+       top_offset = a scalar
+       *origin = an origin block containing xyz="" and rpy="" fields
+      -->
+    <joint name="${prefix}_caster" type="continuous" >
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}" />
+      <child link="${prefix}_caster" />
+      <axis xyz="0 0 1" />
+    </joint>
+    <link name="${prefix}_caster">
+      <inertial>
+	<mass value="0.1"/>
+	<origin xyz="0 0 ${top_offset}" />
+	<inertia  ixx="0.0001" ixy="0.0"  ixz="0.0"  iyy="0.0001"  iyz="0.0"  izz="0.0001" />
+      </inertial>
+      <visual>
+	<origin xyz="0 0 ${top_offset}" rpy="0 0 0" />
+	<geometry>
+          <cylinder radius="${radius}" length="${height}" />
+	</geometry>
+	<material name="${color}"> <!--Dumb to use for a name, but whatever-->
+	  <color rgba="${color}"/>
+	</material>
+      </visual>
+      <collision>
+	<origin xyz="0 0 ${top_offset}" rpy="0 0 0" />
+	<geometry>
+          <cylinder radius="0.025" length="${height}" />
+	</geometry>
+      </collision>
+    </link>
+    <gazebo reference="${prefix}_caster">
+      <mu1>0</mu1>
+      <mu2>0</mu2>
+      <material>Gazebo/Red</material>
+      <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+  </xacro:macro>
+
+
+  <xacro:macro name="cart_wheel" params="prefix color offset height radius width">
+    <!--
+       prefix = wheel name ["front_left"]
+       color = an rgba tuple "155 155 155 0.7"
+       offset = a scalar
+       radius = a scalar
+       width = a scalar
+      -->
+    <joint name="${prefix}_wheel" type="continuous" >
+      <origin xyz="${-offset} 0 ${-height}" rpy="0 0 0"/>
+      <parent link="${prefix}_caster" />
+      <child link="${prefix}_wheel" />
+      <axis xyz="0 1 0" />
+    </joint>
+    <link name="${prefix}_wheel">
+      <inertial>
+	<mass value="0.1"/>
+	<origin xyz="0 0 0" />
+	<inertia  ixx="0.001" ixy="0.0"  ixz="0.0"  iyy="0.001"  iyz="0.0"  izz="0.001" />
+      </inertial>
+      <visual>
+	<origin xyz="0 0 0" rpy="${M_PI/2} 0 0" />
+	<geometry>
+          <cylinder radius="${radius}" length="${width}" />
+	</geometry>
+	<material name="${color}"> <!--Dumb to use for a name, but whatever-->
+	  <color rgba="${color}"/>
+	</material>
+      </visual>
+      <collision>
+	<origin xyz="0 0 0" rpy="${M_PI/2} 0 0" />
+	<geometry>
+          <cylinder radius="${radius}" length="${width}" />
+	</geometry>
+      </collision>
+    </link>
+    <gazebo reference="${prefix}_wheel">
+      <dampingFactor>0.01</dampingFactor>
+      <mu1>1</mu1>
+      <mu2>1</mu2>
+      <material>Gazebo/Green</material>
+      <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+  </xacro:macro>
+
+  <xacro:macro name="cart_shelf" params="name mass parent color length width thickness *origin">
+    <!--
+       name = shelf name ["top"] *this is also the frame name in tf
+       parent = parent link name ["base"]
+       color = an rgba tuple "155 155 155 0.7"
+       length = a scalar
+       width = a scalar
+       thickness = a scalar
+       origin = a block representing the orign to insert
+      -->
+  <joint name="${name}_joint" type="fixed" >
+    <xacro:insert_block name="origin" />
+    <parent link="${parent}" />
+    <child link="${name}" />
+  </joint>
+    <link name="${name}">
+      <inertial>
+	<mass value="${mass}"/>
+	<origin xyz="0 0 0" />
+	<inertia  ixx="0.1" ixy="0.0"  ixz="0.0"  iyy="0.1"  iyz="0.0"  izz="0.1" />
+      </inertial>
+      <visual>
+	<origin xyz="0 0 0" rpy="0 0 0" />
+	<geometry>
+          <box size="${length} ${width} ${thickness}" />
+	</geometry>
+	<material name="${color}"> <!--Dumb to use for a name, but whatever-->
+	  <color rgba="${color}"/>
+	</material>
+      </visual>
+      <collision>
+	<origin xyz="0 0 0" rpy="0 0 0" />
+	<geometry>
+          <box size="${length} ${width} ${thickness}" />
+	</geometry>
+      </collision>
+    </link>
+    <gazebo reference="${name}">
+      <mu1>10</mu1>
+      <mu2>10</mu2>
+      <material>Gazebo/Blue</material>
+      <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+  </xacro:macro>
+
+  <xacro:macro name="cart_bar" params="name parent color radius length *origin">
+    <joint name="${name}_joint" type="fixed" >
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}" />
+      <child link="${name}" />
+    </joint>
+    <link name="${name}">
+      <inertial>
+	<mass value="0.1"/>
+	<origin xyz="0 0 0" />
+	<inertia  ixx="0.01" ixy="0.0"  ixz="0.0"  iyy="0.01"  iyz="0.0"  izz="0.01" />
+      </inertial>
+      <visual>
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<geometry>
+          <cylinder radius="${radius}" length="${length}" />
+	</geometry>
+	<material name="${color}">
+	  <color rgba="${color}"/>
+	</material>
+      </visual>
+      <collision>
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<geometry>
+          <cylinder radius="${radius}" length="${length}" />
+	</geometry>
+      </collision>
+    </link>
+    <gazebo reference="${name}">
+      <mu1>10</mu1>
+      <mu2>10</mu2>
+      <material>Gazebo/BumpyMetal</material>
+      <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+  </xacro:macro>
+
+  <!-- Base link of the robot (we attach cart frame to this in tf using fake_cart_joint_state_publisher)-->
+  <link name="base">
+    <inertial>
+      <mass value="0.1"/>
+      <inertia  ixx="0.01" ixy="0.0"  ixz="0.0"  iyy="0.01"  iyz="0.0"  izz="0.01" />
+    </inertial>
+  </link>
+
+  <!-- BOTTOM SHELF -->
+  <xacro:cart_shelf name="bottom" mass="4" parent="base" color="${black}" length="${cart_length}" width="${cart_width}" thickness="${shelf_thickness}">
+    <origin xyz="0.07 0.0 ${2*wheel_radius + shelf_thickness}" rpy="0 0 0" />
+  </xacro:cart_shelf>
+
+  <!-- MIDDLE SHELF -->
+  <xacro:cart_shelf name="top" mass="1" parent="bottom" color="${black}" length="${cart_length}" width="${cart_width}" thickness="${shelf_thickness}" >
+    <origin xyz="0 0 ${top_height}" rpy="0 0 0" />
+  </xacro:cart_shelf>
+
+  <!-- FRONT-LEFT CASTER -->
+  <xacro:cart_caster prefix="front_left" parent="bottom" color="${black}" top_offset="${-shelf_thickness/2-caster_height/2}" radius="${caster_radius}" height="${caster_height}">
+    <origin xyz="${cart_length/2 - caster_radius} ${-cart_width/2 + caster_radius} 0" rpy="0 0 0"/>
+  </xacro:cart_caster>
+  <xacro:cart_wheel prefix="front_left" color="${silver}" offset="${wheel_offset}" height="${wheel_height}" radius="${wheel_radius}" width="${wheel_width}" />
+
+  <!-- FRONT-RIGHT CASTER -->
+  <xacro:cart_caster prefix="front_right" parent="bottom" color="${black}" top_offset="${-shelf_thickness/2-caster_height/2}" radius="${caster_radius}" height="${caster_height}">
+    <origin xyz="${cart_length/2 - caster_radius} ${cart_width/2 - caster_radius} 0" rpy="0 0 0"/>
+  </xacro:cart_caster>
+  <xacro:cart_wheel prefix="front_right" color="${silver}" offset="${wheel_offset}" height="${wheel_height}" radius="${wheel_radius}" width="${wheel_width}" />
+
+  <!-- BACK-LEFT CASTER -->
+  <xacro:cart_caster prefix="back_left" parent="bottom" color="${black}" top_offset="${-shelf_thickness/2-caster_height/2}" radius="${caster_radius}" height="${caster_height}">
+    <origin xyz="${-cart_length/2 + caster_radius} ${-cart_width/2 + caster_radius} 0" rpy="0 0 0"/>
+  </xacro:cart_caster>
+  <xacro:cart_wheel prefix="back_left" color="${silver}" offset="${wheel_offset}" height="${wheel_height}" radius="${wheel_radius}" width="${wheel_width}" />
+
+  <!-- BACK-RIGHT CASTER -->
+  <xacro:cart_caster prefix="back_right" parent="bottom" color="${black}" top_offset="${-shelf_thickness/2-caster_height/2}" radius="${caster_radius}" height="${caster_height}">
+    <origin xyz="${-cart_length/2 + caster_radius} ${cart_width/2 - caster_radius} 0" rpy="0 0 0"/>
+  </xacro:cart_caster>
+  <xacro:cart_wheel prefix="back_right" color="${silver}" offset="${wheel_offset}" height="${wheel_height}" radius="${wheel_radius}" width="${wheel_width}" />
+
+  <!-- LEGS -->
+  <xacro:cart_bar name="front_left_leg" parent="front_left_caster" color="${silver}" radius="${leg_radius}" length="${top_height - shelf_thickness}">
+    <origin xyz="0 0 ${top_height/2}" rpy="0 0 0"/>
+  </xacro:cart_bar>
+  <xacro:cart_bar name="front_right_leg" parent="front_right_caster" color="${silver}" radius="${leg_radius}" length="${top_height - shelf_thickness}">
+    <origin xyz="0 0 ${top_height/2}" rpy="0 0 0"/>
+  </xacro:cart_bar>
+  <xacro:cart_bar name="back_left_leg" parent="back_left_caster" color="${silver}" radius="${leg_radius}" length="${2*top_height}">
+    <origin xyz="0 0 ${shelf_thickness/2 + top_height}" rpy="0 0 0"/>
+  </xacro:cart_bar>
+  <xacro:cart_bar name="back_right_leg" parent="back_right_caster" color="${silver}" radius="${leg_radius}" length="${2*top_height}">
+    <origin xyz="0 0 ${shelf_thickness/2 + top_height}" rpy="0 0 0"/>
+  </xacro:cart_bar>
+
+  <!-- HANDLE BAR -->
+  <xacro:cart_bar name="handle" parent="top" color="${black}" radius="${handle_radius}" length="${handle_length}">
+    <origin xyz="${-cart_length/2 - 0.08} 0 ${top_height + 0.13}" rpy="${M_PI/2} 0 0"/>
+  </xacro:cart_bar>
+  <xacro:cart_bar name="handle_rmt" parent="handle" color="${black}" radius="${handle_radius}" length="${0.16}">
+    <origin xyz="0.05 -0.05 ${handle_length/2 - handle_radius}" rpy="${M_PI/4} ${M_PI/2} 0"/>
+  </xacro:cart_bar>
+  <xacro:cart_bar name="handle_lmt" parent="handle" color="${black}" radius="${handle_radius}" length="${0.16}">
+    <origin xyz="0.05 -0.05 -${handle_length/2 - handle_radius}" rpy="${M_PI/4} ${M_PI/2} 0"/>
+  </xacro:cart_bar>
+
+</robot>
