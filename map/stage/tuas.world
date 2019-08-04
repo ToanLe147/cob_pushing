@@ -1,5 +1,10 @@
 include "cob4-8.inc"
-include "cart.inc"
+
+define obstacle model
+(
+  size [0.44 0.43 0.765]
+  gui_nose 0
+)
 
 define floorplan model
 (
@@ -43,9 +48,9 @@ cob4-8
   name "cob4-8"
   color "blue"
 )
-cart
+obstacle
 (
     pose [ -1.880 -2.195 0.000 0.000 ]
-    name "cart"
-    color "green"
+    name "obstacle"
+    color "red"
 )

@@ -2,17 +2,25 @@
 <launch>
 
   <arg name="robot"/>
+  <arg name="sbpl"/>
 
   <!-- delete old parameters -->
   <rosparam command="delete" param="/move_base"/>
 
-  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base_node" output="screen">
     <remap from="cmd_vel" to="base/twist_mux/command_navigation"/>
     <remap from="odom" to="base/odometry_controller/odometry"/>
     <param name="controller_frequency" value="10"/>
+    <param name="controller_patience" value="100.0" />
+    <param name="footprint_padding" value="0.01" />
 
     <!-- Use the dwa local planner for the PR2 -->
     <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
+
+    <!-- using SBPL_lattice_planner for global planning -->
+    <param name="base_global_planner" value="SBPLLatticePlanner" if="$(arg sbpl)"/>
+    <param name="SBPLLatticePlanner/primitive_filename" value="$(find cob_pushing)/launch/includes/cob_only.mprim" if="$(arg sbpl)"/>
+    <rosparam file="$(find cob_pushing)/robots/cob4-8/config/sbpl_global_params.yaml" command="load" if="$(arg sbpl)"/>
 
     <!--- load common configuration files -->
     <rosparam file="$(find cob_pushing)/robots/$(arg robot)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />

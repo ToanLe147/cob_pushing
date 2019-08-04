@@ -11,21 +11,6 @@
   <arg name="develop" default="true"/>
   <param name="/use_sim_time" value="true"/>
 
-  <!--  ****** Cart params *****  -->
-  <!-- <param name="cart_description" command="$(find xacro)/xacro '$(find cob_pushing)/robots/cart/cart.urdf.xarco'" /> -->
-  <rosparam file="$(find cob_pushing)/robots/cart/cart.urdf" command="load" ns="cart_description"/>
-
-  <!--  ****** Cart estimation *****  -->
-  <!-- <node pkg="cob_pushing" type="fake_cart_joint_state_publisher.py" name="fake_cart_joint_state_publisher" args="" output="screen" /> -->
-
-  <node pkg="robot_state_publisher" type="state_publisher" name="rob_st_pub" >
-    <remap from="robot_description" to="cart_description" />
-    <remap from="joint_states" to="cart_joint_states" />
-  </node>
-
-  <!--  ****** Cart articulation *****  -->
-  <!-- PUT SOME CODE HERE -->
-
   <!--  **************** Visualisation ****************  -->
   <group if="$(arg develop)">
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find cob_pushing)/rviz/test_cart_urdf.rviz"/>
@@ -48,5 +33,10 @@
       <param name="base_watchdog_timeout" value="0.5"/>
     </node>
   </group>
+
+  <!-- upload cart description -->
+  <include file="$(find cob_pushing)/robots/cart/cart_simulator.xml" >
+    <arg name="gui" value="true" />
+  </include>
 
 </launch>

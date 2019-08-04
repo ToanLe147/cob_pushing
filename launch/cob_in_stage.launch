@@ -19,20 +19,6 @@
 
   <param name="/use_sim_time" value="true"/>
   <!--  ******************** Stage ********************  -->
-  <!--
-        Publishes transforms:
-          /base_link -> /base_laser
-          /base_footprint -> /base_link (identity)
-          /odom -> base_footprint
-        Publishes topics:
-          /odom : odometry data from the simulated odometry
-          /base_scan : laser data from the simulated laser
-          /base_pose_ground_truth : the ground truth pose
-        Parameters:
-          base_watchdog_timeout : time (s) after receiving the last command on cmd_vel before stopping the robot
-        Args:
-          -g : run in headless mode.
-  -->
   <node pkg="stage_ros" type="stageros" name="stageros" args="$(arg world_file)">
     <param name="base_watchdog_timeout" value="0.5"/>
     <remap from="odom" to="/base/odometry_controller/odometry"/>
@@ -47,6 +33,7 @@
 
   <!-- define arguments -->
   <arg name="robot" default="$(optenv ROBOT !!NO_ROBOT_SET!!)"/>
+  <arg name="sbpl" default="true"/>
   <arg name="robot_env" default="$(optenv ROBOT_ENV !!NO_ROBOT_ENV_SET!!)"/>
   <arg name="paused" default="false"/>
   <arg name="initial_config" default=""/>
@@ -61,7 +48,7 @@
     <param name="frame_id" value="map"/>
   </node>
 
-  <!--- Run AMCL -->
+  <!---****** Run AMCL ******-->
   <include file="$(find cob_pushing)/launch/includes/amcl_node.xml" >
     <arg name="use_map_topic" value="true"/>
     <arg name="initial_pose_x" value="$(arg initial_pose_x)"/>
@@ -69,9 +56,10 @@
     <arg name="initial_pose_a" value="$(arg initial_pose_a)"/>
   </include>
 
-  <!--- Run move base -->
+  <!---****** Run move base ******-->
   <include file="$(find cob_pushing)/launch/includes/move_base.xml" >
     <arg name="robot" value="$(arg robot)"/>
+    <arg name="sbpl" value="$(arg sbpl)"/>
   </include>
 
   <!--  **************** Visualisation ****************  -->
