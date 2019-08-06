@@ -18,20 +18,20 @@ if __name__ == '__main__':
     #===========================================
 
     # Go to home position
-    sss.move("arm_left", "side")
-    sss.sleep(2.0)
-    sss.move("arm_right", "side")
-    sss.sleep(1.0)
-    sss.move("gripper_left", "close")
-    sss.sleep(1.0)
-    sss.move("gripper_right", "close")
+    # sss.move("arm_left", "side")
+    # sss.sleep(2.0)
+    # sss.move("arm_right", "side")
+    # sss.sleep(1.0)
+    # sss.move("gripper_left", "close")
+    # sss.sleep(1.0)
+    # sss.move("gripper_right", "close")
 
     # Go to pushing cart position
     # Using launch and custom yaml for arm positions
 
-    # sss.move("arm_right", "ready")
-    # sss.sleep(2.0)
-    # sss.move("arm_left", "ready")
+    sss.move("arm_right", "ready")
+    sss.sleep(2.0)
+    sss.move("arm_left", "ready")
     # sss.sleep(1.0)
     # sss.move("gripper_left", "open")
     # sss.sleep(1.0)

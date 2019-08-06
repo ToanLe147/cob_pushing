@@ -7,24 +7,24 @@ from sensor_msgs.msg import JointState
 from geometry_msgs.msg import Pose, PoseStamped, Point, Quaternion
 
 
-class cart_joint_state_publisher:
+class arm_joint_state_publisher:
     def __init__(self):
-        """Fake publisher for cart joint states
+        """Fake publisher for armt joint states
 
         Arguments:
         - `self`:
         """
-        self._joint_state_pub = rospy.Publisher("cart_joint_states", JointState, queue_size=10)
+        self._joint_state_pub = rospy.Publisher("joint_states", JointState)
 
         self.tb = tf.TransformBroadcaster()
 
         # Make the message just once since nothing is changing...
         self.jointstate = JointState()
         self.jointstate.header.stamp = rospy.Time.now()
-        self.jointstate.name = ["lf_caster_joint", "lf_wheel_joint", "rf_caster_joint", "rf_wheel_joint", "lb_caster_joint", "lb_wheel_joint", "rb_caster_joint", "rb_wheel_joint"]
-        self.jointstate.position = [0.0] * len(self.jointstate.name)
+        self.jointstate.name = ['arm_left_1_joint', 'arm_left_2_joint', 'arm_left_3_joint', 'arm_left_4_joint', 'arm_left_5_joint', 'arm_left_6_joint', 'arm_left_7_joint', 'arm_right_1_joint', 'arm_right_2_joint', 'arm_right_3_joint', 'arm_right_4_joint', 'arm_right_5_joint', 'arm_right_6_joint', 'arm_right_7_joint', 'fl_caster_rotation_joint', 'fl_caster_r_wheel_joint', 'b_caster_rotation_joint', 'b_caster_r_wheel_joint', 'fr_caster_rotation_joint', 'fr_caster_r_wheel_joint', 'head_1_joint', 'head_2_joint', 'head_3_joint', 'sensorring_joint', 'gripper_right_finger_1_joint', 'gripper_right_finger_2_joint', 'gripper_left_finger_1_joint', 'gripper_left_finger_2_joint']
+        self.jointstate.position = [0.75, 1.63, -1.41, 1.19, 0.00, -0.63, 1.59, -0.75, -1.63, 1.41, -1.19, 0.00, 0.45, -1.53, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
-        # Set a transform from the "base" link in the cart urdf to the "cart" frame
+        # Set a transform from the "base" link in the arm urdf to the "arm" frame
         self.base_pose = PoseStamped(pose=Pose(position=Point(0.0, 0.0, 0.0),
                                                orientation=Quaternion(0.0, 0.0, 0.0, 1.0)))
         self.base_pose.header.stamp = rospy.Time.now()
@@ -53,14 +53,14 @@ class cart_joint_state_publisher:
         r=rospy.Rate(rate)
         while not rospy.is_shutdown() and self.alive.isSet():
             self.jointstate.header.stamp = rospy.Time.now()
-            self.publish_cart_joint_states()
-            self.tb.sendTransform(self.base_pose_tup[0],
-                                  self.base_pose_tup[1],
-                                  rospy.get_rostime(),
-                                  "cart_base_link", "map")
+            self.publish_arm_joint_states()
+            # self.tb.sendTransform(self.base_pose_tup[0],
+            #                       self.base_pose_tup[1],
+            #                       rospy.get_rostime(),
+            #                       "arm_base_link", "base_link")
             r.sleep()
 
-    def publish_cart_joint_states(self):
+    def publish_arm_joint_states(self):
         """Publish dummy values
         """
         self._joint_state_pub.publish(self.jointstate)
@@ -69,9 +69,9 @@ class cart_joint_state_publisher:
 if __name__ == '__main__':
     #from optparse import OptionParser
     #parser = OptionParser(usage="")
-    #parser.add_option("-x", dest="cart_pose_x", default=0.0,
-    #                  help="x displacement of cart model from \"cart\" frame in tf")
+    #parser.add_option("-x", dest="arm_pose_x", default=0.0,
+    #                  help="x displacement of arm model from \"arm\" frame in tf")
     #(options, args) = parser.parse_args()
-    rospy.init_node("cart_joint_state_publisher")
-    c=cart_joint_state_publisher()
+    rospy.init_node("arm_joint_state_publisher")
+    c=arm_joint_state_publisher()
     rospy.spin()

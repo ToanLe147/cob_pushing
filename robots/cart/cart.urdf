@@ -1,17 +1,12 @@
 <?xml version="1.0" ?>
 <robot name="Cart">
 
-    <link name="base_link">
-        <inertial>
-            <mass value="0.1"/>
-            <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
-        </inertial>
-    </link>
+    <link name="cart_base_link" />
 
     <!-- CHASSIS -->
     <joint name="chassis_middle_base_link" type="fixed">
         <origin rpy="0 0 0" xyz="0 0 .45"/>
-        <parent link="base_link"/>
+        <parent link="cart_base_link"/>
         <child link="chassis_middle"/>
     </joint>
     <link name="chassis_middle">
@@ -28,12 +23,13 @@
             <geometry>
                 <box  size=".44 .43 .02"/>
             </geometry>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
         </collision>
     </link>
 
     <joint name="chassis_top_base_link" type="fixed">
         <origin rpy="0 0 0" xyz="0 0 .765"/>
-        <parent link="base_link"/>
+        <parent link="cart_base_link"/>
         <child link="chassis_top"/>
     </joint>
     <link name="chassis_top">
@@ -50,6 +46,7 @@
             <geometry>
                 <box  size=".44 .43 .02"/>
             </geometry>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
         </collision>
     </link>
 
@@ -73,6 +70,7 @@
             <geometry>
                 <cylinder  length="0.655" radius="0.02"/>
             </geometry>
+            <origin rpy="0.0 0.0 0.0" xyz="0 0 -.3275"/>
         </collision>
     </link>
 
@@ -95,6 +93,7 @@
             <geometry>
                 <cylinder  length="0.655" radius="0.02"/>
             </geometry>
+            <origin rpy="0.0 0.0 0.0" xyz="0 0 -.3275"/>
         </collision>
     </link>
 
@@ -117,6 +116,7 @@
             <geometry>
                 <cylinder  length="0.655" radius="0.02"/>
             </geometry>
+            <origin rpy="0.0 0.0 0.0" xyz="0 0 -.3275"/>
         </collision>
     </link>
 
@@ -139,6 +139,7 @@
             <geometry>
                 <cylinder  length="0.655" radius="0.02"/>
             </geometry>
+            <origin rpy="0.0 0.0 0.0" xyz="0 0 -.3275"/>
         </collision>
     </link>
 
@@ -162,6 +163,7 @@
             <geometry>
                 <cylinder  length="0.2" radius="0.02"/>
             </geometry>
+            <origin rpy="0.0 0.0 0.0" xyz="0 0 .1"/>
         </collision>
     </link>
 
@@ -184,6 +186,7 @@
             <geometry>
                 <cylinder  length="0.2" radius="0.02"/>
             </geometry>
+            <origin rpy="0.0 0.0 0.0" xyz="0 0 .1"/>
         </collision>
     </link>
 
@@ -206,6 +209,7 @@
             <geometry>
                 <cylinder  length="0.43" radius="0.02"/>
             </geometry>
+            <origin rpy="0.0 0.0 0.0" xyz="0 0 .215"/>
         </collision>
     </link>
 
@@ -230,7 +234,13 @@
             <geometry>
                 <cylinder  length="0.05" radius="0.024"/>
             </geometry>
+            <origin rpy="0.0 0.0 0.0" xyz="0 0 -0.025"/>
         </collision>
+        <inertial>
+            <mass value="0.1"/>
+            <origin xyz="0 0 -0.025"/>
+            <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+        </inertial>
     </link>
 
     <joint name="lf_wheel_joint" type="continuous">
@@ -253,7 +263,13 @@
             <geometry>
                 <cylinder  length="0.024" radius="0.055"/>
             </geometry>
+            <origin rpy="-1.57 0.0 0.0" xyz="0 0 0"/>
         </collision>
+        <inertial>
+            <mass value="0.1"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+        </inertial>
     </link>
 
     <joint name="rf_caster_joint" type="continuous">
@@ -276,7 +292,13 @@
             <geometry>
                 <cylinder  length="0.05" radius="0.024"/>
             </geometry>
+            <origin rpy="0.0 0.0 0.0" xyz="0 0 -0.025"/>
         </collision>
+        <inertial>
+            <mass value="0.1"/>
+            <origin xyz="0 0 -0.025"/>
+            <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+        </inertial>
     </link>
 
     <joint name="rf_wheel_joint" type="continuous">
@@ -299,7 +321,13 @@
             <geometry>
                 <cylinder  length="0.024" radius="0.055"/>
             </geometry>
+            <origin rpy="0.0 0.0 0.0" xyz="0 0 0"/>
         </collision>
+        <inertial>
+            <mass value="0.1"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+        </inertial>
     </link>
 
     <joint name="lb_caster_joint" type="continuous">
@@ -322,7 +350,13 @@
             <geometry>
                 <cylinder  length="0.05" radius="0.024"/>
             </geometry>
+            <origin rpy="0.0 0.0 0.0" xyz="0 0 -0.025"/>
         </collision>
+        <inertial>
+            <mass value="0.1"/>
+            <origin xyz="0 0 -0.025"/>
+            <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+        </inertial>
     </link>
 
     <joint name="lb_wheel_joint" type="continuous">
@@ -345,7 +379,13 @@
             <geometry>
                 <cylinder  length="0.024" radius="0.055"/>
             </geometry>
+            <origin rpy="-1.57 0.0 0.0" xyz="0 0 0"/>
         </collision>
+        <inertial>
+            <mass value="0.1"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+        </inertial>
     </link>
 
     <joint name="rb_caster_joint" type="continuous">
@@ -368,7 +408,13 @@
             <geometry>
                 <cylinder  length="0.05" radius="0.024"/>
             </geometry>
+            <origin rpy="0.0 0.0 0.0" xyz="0 0 -0.025"/>
         </collision>
+        <inertial>
+            <mass value="0.1"/>
+            <origin xyz="0 0 -0.025"/>
+            <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+        </inertial>
     </link>
 
     <joint name="rb_wheel_joint" type="continuous">
@@ -391,7 +437,13 @@
             <geometry>
                 <cylinder  length="0.024" radius="0.055"/>
             </geometry>
+            <origin rpy="-1.57 0.0 0.0" xyz="0 0 0"/>
         </collision>
+        <inertial>
+            <mass value="0.1"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+        </inertial>
     </link>
 
 </robot>
