@@ -19,7 +19,7 @@
 
     <!-- using SBPL_lattice_planner for global planning -->
     <param name="base_global_planner" value="SBPLLatticePlanner" if="$(arg sbpl)"/>
-    <param name="SBPLLatticePlanner/primitive_filename" value="$(find cob_pushing)/launch/includes/mprim/cob_full_32.mprim" if="$(arg sbpl)"/>
+    <param name="SBPLLatticePlanner/primitive_filename" value="$(find cob_pushing)/launch/includes/mprim/cob_only_32.mprim" if="$(arg sbpl)"/>
     <rosparam file="$(find cob_pushing)/robots/cob4-8/config/sbpl_global_params.yaml" command="load" if="$(arg sbpl)"/>
     <!-- local_costmap for SBPL_lattice_planner -->
 

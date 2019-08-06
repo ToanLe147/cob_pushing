@@ -60,7 +60,7 @@
 			<arg name="input_scans" value="['base_laser_front/scan','base_laser_left/scan','base_laser_right/scan']"/>
 			<arg name="output_scan" value="/scan_unified"/>
 		</include>
-		
+
 		<include file="$(find cob_bringup)/tools/base_collision_observer.launch">
 			<arg name="robot" value="$(arg robot)"/>
 		</include>
@@ -75,22 +75,6 @@
 			<arg name="fake_diagnostics" value="'base_laser_front, base_laser_right, base_laser_left, -b1, -t1, -t2, -t3, -s1, -h1, joy, safety'"/>
 		</include>
 
-<!--******************** Add for testing arm control ********************-->
-		<!-- <include file="$(find cob_script_server)/launch/script_server.launch"/>
-		<include file="$(find cob_bringup)/components/canopen_generic.launch">
-			<arg name="robot" value="$(arg robot)"/>
-			<arg name="component_name" value="arm_left"/>
-			<arg name="can_device" value="can3"/>
-			<arg name="sim" value="$(arg sim)"/>
-			<arg if="$(arg sim)" name="cartesian_control" value="true"/>
-		</include>
-		<include file="$(find cob_bringup)/components/canopen_generic.launch">
-			<arg name="robot" value="$(arg robot)"/>
-			<arg name="component_name" value="arm_right"/>
-			<arg name="can_device" value="can2"/>
-			<arg name="sim" value="$(arg sim)"/>
-			<arg if="$(arg sim)" name="cartesian_control" value="true"/>
-		</include> -->
 	</group>
 
 </launch>

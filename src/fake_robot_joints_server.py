@@ -7,7 +7,7 @@ from sensor_msgs.msg import JointState
 from geometry_msgs.msg import Pose, PoseStamped, Point, Quaternion
 
 
-class arm_joint_state_publisher:
+class robot_joint_state_publisher:
     def __init__(self):
         """Fake publisher for armt joint states
 
@@ -72,6 +72,6 @@ if __name__ == '__main__':
     #parser.add_option("-x", dest="arm_pose_x", default=0.0,
     #                  help="x displacement of arm model from \"arm\" frame in tf")
     #(options, args) = parser.parse_args()
-    rospy.init_node("arm_joint_state_publisher")
-    c=arm_joint_state_publisher()
+    rospy.init_node("robot_joint_state_publisher")
+    c=robot_joint_state_publisher()
     rospy.spin()
