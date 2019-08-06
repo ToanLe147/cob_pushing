@@ -43,7 +43,8 @@
     <arg name="sim" value="true" />
   </include>
 
-   <node pkg="cob_pushing" type="fake_robot_joints_server.py" name="robot_joint_state_publisher"/>
+  <node pkg="cob_pushing" type="fake_robot_joints_server.py" name="robot_joint_state_publisher"/>
+  <include file="$(find cob_pushing)/robots/$(arg robot)/config/joint_state_publisher.xml" />
 
   <!--  ***************** Cart Model *****************  -->
   <include file="$(find cob_pushing)/launch/cart_model_simulator.launch" >
