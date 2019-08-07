@@ -5,28 +5,27 @@ import sensor_msgs.point_cloud2 as pc2
 from sensor_msgs.msg import LaserScan
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import PolygonStamped, Point
-from visualization_msgs.msg import Marker
-from visualization_msgs.msg import MarkerArray
 # Import calculating and operating packages
 from simple_script_server import *
 import laser_geometry.laser_geometry as lg
 import numpy as np
 from sklearn.cluster import KMeans
+from shapely.geometry import Point as shape_point
+from shapely.geometry.polygon import Polygon as shape_polygon
 
 
 class cob_ready_state():
     def __init__(self):
         # Visualization topics:
         self.visual_cart_footprint = rospy.Publisher("/visual_cart_footprint", PolygonStamped, queue_size=10)
-        self.visual_points = rospy.Publisher("/visual_points", MarkerArray, queue_size=10)
         self.visual_laser_msg = rospy.Publisher("/cart_filtered_scan", LaserScan, queue_size=1)
         self.visual_cart = rospy.Publisher("/isolated_cart_scan", LaserScan, queue_size=1)
 
         # The cart status:
-        self.ref_cart_legs=[[0.67, 0.22],
-                            [1.3, -0.21],
-                            [0.67, -0.21],
-                            [1.4, 0.22]]
+        self.ref_cart_legs=[(1.485, 0.335),
+                            (0.815, 0.335),
+                            (0.815, -0.335),
+                            (1.485, -0.335)]
         self.the_cart = False
         self.cart_legs=[]
         self.cart_area = 0.2
@@ -121,67 +120,26 @@ class cob_ready_state():
         print(legs)
 
         def check_leg_position(ref, source):
-            number_of_elements = len(source)
-            number_of_true = 0
-            for i in range(number_of_elements):
-                if abs(source[i]) < abs(ref[i]):
-                    number_of_true += 1
-            if number_of_true == number_of_elements:
+            check = 0
+            polygon = shape_polygon(ref)
+            for i in source:
+                point = shape_point(i[0], i[1])
+                if polygon.contains(point):
+                    check += 1
+            if check >= len(ref):
                 return True
             else:
                 return False
 
         # Manually check position of the cart:
-        check = 0
-        for i in range(len(legs)):
-            if check_leg_position(self.ref_cart_legs[i], legs[i]):
-                check += 1
-        if check == len(legs) and not self.the_cart:
+        if check_leg_position(self.ref_cart_legs, legs) and check_leg_position(self.ref_cart_legs, dataset):
             self.the_cart = True
-            # self.visualization(legs, "points")
             # self.close_grippers()
+        else:
+            self.the_cart = False
         rospy.loginfo("Cart detected: " + str(self.the_cart))
 
     def visualization(self, data, type):
-        markerArray = MarkerArray()
-        id = 0
-
-        def marker_generator():
-            marker = Marker()
-            marker.header.frame_id = "/base_link"
-            marker.type = marker.SPHERE
-            marker.action = marker.ADD
-            marker.scale.x = 0.025
-            marker.scale.y = 0.025
-            marker.scale.z = 0.025
-            marker.color.a = 1.0
-            marker.color.r = 1.0
-            marker.color.g = 0.0
-            marker.color.b = 0.0
-            marker.pose.orientation.w = 1.0
-            marker.pose.position.z = 0.0
-            return marker
-
-        if type == "points":
-            if len(data) > 1:
-                temp = np.append(data, data[0])
-                for i in temp:
-                    marker = marker_generator()
-                    marker.type = marker.LINE_LIST
-                    marker.pose.position.x = i[0]
-                    marker.pose.position.y = i[1]
-                    markerArray.markers.append(marker)
-
-                    # Renumber the marker IDs
-                    for m in markerArray.markers:
-                        m.id = id
-                        id += 1
-            else:
-                marker = marker_generator()
-                marker.pose.position.x = data[0][0]
-                marker.pose.position.y = data[0][1]
-                markerArray.markers.append(marker)
-            self.visual_points.publish(markerArray)
 
         if type == "filtered_laser":
             self.visual_laser_msg.publish(data)
