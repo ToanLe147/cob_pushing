@@ -1,41 +1,78 @@
-TrajectoryPlannerROS:
-  max_vel_x: 0.3
-  min_vel_x: -0.3
-  max_rotational_vel: 0.3 # 0.04
-  max_vel_theta: 0.8
-  min_in_place_rotational_vel: 0.01
-
-  acc_lim_th: 3.0
-  acc_lim_x: 2.5
-  acc_lim_y: 2.5
-
-  holonomic_robot: true
-
-  ##Independent settings for the local costmap
-# PoseFollower:
-#   transform_tolerance: 0.3
-#   sim_time: 1.7
-#   sim_granularity: 0.025
-#   dwa: true
-#   vx_samples: 3
-#   vtheta_samples: 20
+# TrajectoryPlannerROS:
 #   max_vel_x: 0.3
 #   min_vel_x: -0.3
-#   max_rotational_vel: 0.3
+#   max_rotational_vel: 0.3 # 0.04
 #   max_vel_theta: 0.8
 #   min_in_place_rotational_vel: 0.01
-#   xy_goal_tolerance: 0.1
-#   yaw_goal_tolerance: 0.1
-#   goal_distance_bias: 0.2
-#   path_distance_bias: .9
-#   occdist_scale: 0.01
-#   heading_lookahead: 0.325
-#   oscillation_reset_dist: 0.05
-#   holonomic_robot: true
+#
 #   acc_lim_th: 3.0
 #   acc_lim_x: 2.5
 #   acc_lim_y: 2.5
-#   heading_scoring: false
-#   heading_scoring_timestep: 0.8
+#
 #   holonomic_robot: true
-#   simple_attractor: false
+
+TebLocalPlannerROS:
+
+ odom_topic: odom
+ map_frame: /map
+
+ # Trajectory
+
+ teb_autosize: True
+ dt_ref: 0.3
+ dt_hysteresis: 0.1
+ global_plan_overwrite_orientation: True
+ max_global_plan_lookahead_dist: 3.0
+ feasibility_check_no_poses: 5
+
+  ##Independent settings for the local costmap
+# PoseFollower:
+#   acc_lim_th: 3.2
+#   acc_lim_x: 2.5
+#   acc_lim_y: 2.5
+#
+#   max_vel_x: 0.3
+#   min_vel_x: -0.3
+#
+#   max_vel_y: 0.2
+#   min_vel_y: -0.2
+#
+#   max_trans_vel: 0.3
+#   min_trans_vel: 0.01
+#
+#   max_rot_vel: 0.6
+#   min_rot_vel: 0.01
+#
+#   #param for rotating behaviour
+#   #max_rotational_vel: 0.04
+#   #min_in_place_rotational_vel: 0.01
+#
+#
+#   sim_time: 1.7
+#   sim_granularity: 0.017
+#
+#   goal_distance_bias: 32.0
+#   path_distance_bias: 24.0
+#   occdist_scale: 0.01
+#
+#   stop_time_buffer: 0.2
+#   oscillation_reset_dist: 0.05
+#
+#   forward_point_distance: 0.0
+#
+#   scaling_speed: 0.25
+#   max_scaling_factor: 0.2
+#
+#   vx_samples: 3
+#   vy_samples: 10
+#   vtheta_samples: 20
+#
+#   sim_period: 0.1
+#
+#   xy_goal_tolerance: 0.2 #0.3
+#   yaw_goal_tolerance: 0.17 #0.5
+#
+#   rot_stopped_vel: 0.01
+#   trans_stopped_vel: 0.01
+#
+#   penalize_negative_x: false

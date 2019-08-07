@@ -6,7 +6,6 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
-        - /TF1
         - /TF1/Frames1
       Splitter Ratio: 0.688760817
     Tree Height: 775
@@ -67,18 +66,312 @@ Visualization Manager:
     - Alpha: 1
       Class: rviz/RobotModel
       Collision Enabled: false
-      Enabled: false
+      Enabled: true
       Links:
         All Links Enabled: true
         Expand Joint Details: false
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
+        arm_left_1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_left_2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_left_3_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_left_4_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_left_5_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_left_6_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_left_7_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_left_base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_right_1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_right_2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_right_3_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_right_4_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_right_5_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_right_6_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_right_7_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_right_base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        b_caster_r_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        b_caster_rotation_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        base_charger_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        base_chassis_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        base_footprint:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        base_laser_front_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        base_laser_left_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        base_laser_right_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        fl_caster_r_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        fl_caster_rotation_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        fr_caster_r_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        fr_caster_rotation_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper_left_base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper_left_camera_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper_left_finger_1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper_left_finger_2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper_left_grasp_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper_left_palm_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper_right_base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper_right_camera_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper_right_finger_1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper_right_finger_2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper_right_grasp_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper_right_palm_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        head_1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        head_2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        head_3_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        head_base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        head_cam_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        head_cam_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        head_cam_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        head_center_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        sensorring_base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        sensorring_cam3d_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        sensorring_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        torso_1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        torso_2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        torso_3_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        torso_base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        torso_cam3d_down_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        torso_cam3d_left_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        torso_cam3d_right_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        torso_center_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
       Name: RobotModel
       Robot Description: robot_description
       TF Prefix: ""
       Update Interval: 0
-      Value: false
+      Value: true
       Visual Enabled: true
     - Alpha: 1
       Class: rviz/Polygon
@@ -354,11 +647,11 @@ Visualization Manager:
         Y: 0
         Z: 0
       Pose Color: 255; 85; 255
-      Pose Style: None
+      Pose Style: Arrows
       Radius: 0.0299999993
       Shaft Diameter: 0.100000001
       Shaft Length: 0.100000001
-      Topic: /move_base_node/PoseFollower/local_plan
+      Topic: /move_base_node/TebLocalPlannerROS/local_plan
       Unreliable: false
       Value: true
     - Alpha: 0.699999988
@@ -382,295 +675,19 @@ Visualization Manager:
       Use Timestamp: false
       Value: true
     - Class: rviz/TF
-      Enabled: true
+      Enabled: false
       Frame Timeout: 15
       Frames:
         All Enabled: false
-        arm_left_1_link:
-          Value: false
-        arm_left_2_link:
-          Value: false
-        arm_left_3_link:
-          Value: false
-        arm_left_4_link:
-          Value: false
-        arm_left_5_link:
-          Value: false
-        arm_left_6_link:
-          Value: false
-        arm_left_7_link:
-          Value: false
-        arm_left_base_link:
-          Value: false
-        arm_right_1_link:
-          Value: false
-        arm_right_2_link:
-          Value: false
-        arm_right_3_link:
-          Value: false
-        arm_right_4_link:
-          Value: false
-        arm_right_5_link:
-          Value: false
-        arm_right_6_link:
-          Value: false
-        arm_right_7_link:
-          Value: false
-        arm_right_base_link:
-          Value: false
-        b_caster_r_wheel_link:
-          Value: false
-        b_caster_rotation_link:
-          Value: false
-        base_charger_link:
-          Value: false
-        base_chassis_link:
-          Value: false
-        base_footprint:
-          Value: true
-        base_laser_front_link:
-          Value: false
-        base_laser_left_link:
-          Value: false
-        base_laser_link_0:
-          Value: false
-        base_laser_link_1:
-          Value: false
-        base_laser_link_2:
-          Value: false
-        base_laser_right_link:
-          Value: false
-        base_link:
-          Value: false
-        cart_base_link:
-          Value: true
-        chassis_middle:
-          Value: false
-        chassis_top:
-          Value: false
-        fl_caster_r_wheel_link:
-          Value: false
-        fl_caster_rotation_link:
-          Value: false
-        fr_caster_r_wheel_link:
-          Value: false
-        fr_caster_rotation_link:
-          Value: false
-        gripper_left_base_link:
-          Value: false
-        gripper_left_camera_link:
-          Value: false
-        gripper_left_finger_1_link:
-          Value: false
-        gripper_left_finger_2_link:
-          Value: false
-        gripper_left_grasp_link:
-          Value: true
-        gripper_left_palm_link:
-          Value: false
-        gripper_right_base_link:
-          Value: false
-        gripper_right_camera_link:
-          Value: false
-        gripper_right_finger_1_link:
-          Value: false
-        gripper_right_finger_2_link:
-          Value: false
-        gripper_right_grasp_link:
-          Value: true
-        gripper_right_palm_link:
-          Value: false
-        handler_bar:
-          Value: true
-        head_1_link:
-          Value: false
-        head_2_link:
-          Value: false
-        head_3_link:
-          Value: false
-        head_base_link:
-          Value: false
-        head_cam_frame:
-          Value: false
-        head_cam_link:
-          Value: false
-        head_cam_optical_frame:
-          Value: false
-        head_center_link:
-          Value: false
-        left_back_caster:
-          Value: false
-        left_back_leg:
-          Value: false
-        left_back_wheel:
-          Value: false
-        left_front_caster:
-          Value: false
-        left_front_leg:
-          Value: false
-        left_front_wheel:
-          Value: false
-        left_handler:
-          Value: false
-        map:
-          Value: false
-        odom:
-          Value: false
-        right_back_caster:
-          Value: false
-        right_back_leg:
-          Value: false
-        right_back_wheel:
-          Value: false
-        right_front_caster:
-          Value: false
-        right_front_leg:
-          Value: false
-        right_front_wheel:
-          Value: false
-        right_handler:
-          Value: false
-        sensorring_base_link:
-          Value: false
-        sensorring_cam3d_link:
-          Value: false
-        sensorring_link:
-          Value: false
-        torso_1_link:
-          Value: false
-        torso_2_link:
-          Value: false
-        torso_3_link:
-          Value: false
-        torso_base_link:
-          Value: false
-        torso_cam3d_down_link:
-          Value: false
-        torso_cam3d_left_link:
-          Value: false
-        torso_cam3d_right_link:
-          Value: false
-        torso_center_link:
-          Value: false
       Marker Scale: 1
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
-        map:
-          odom:
-            base_footprint:
-              base_link:
-                base_chassis_link:
-                  b_caster_rotation_link:
-                    b_caster_r_wheel_link:
-                      {}
-                  base_charger_link:
-                    {}
-                  fl_caster_rotation_link:
-                    fl_caster_r_wheel_link:
-                      {}
-                  fr_caster_rotation_link:
-                    fr_caster_r_wheel_link:
-                      {}
-                base_laser_front_link:
-                  {}
-                base_laser_left_link:
-                  {}
-                base_laser_link_0:
-                  {}
-                base_laser_link_1:
-                  {}
-                base_laser_link_2:
-                  {}
-                base_laser_right_link:
-                  {}
-                cart_base_link:
-                  chassis_middle:
-                    {}
-                  chassis_top:
-                    left_back_leg:
-                      left_back_caster:
-                        left_back_wheel:
-                          {}
-                    left_front_leg:
-                      left_front_caster:
-                        left_front_wheel:
-                          {}
-                    left_handler:
-                      handler_bar:
-                        {}
-                    right_back_leg:
-                      right_back_caster:
-                        right_back_wheel:
-                          {}
-                    right_front_leg:
-                      right_front_caster:
-                        right_front_wheel:
-                          {}
-                    right_handler:
-                      {}
-                torso_base_link:
-                  torso_1_link:
-                    torso_2_link:
-                      torso_3_link:
-                        arm_left_base_link:
-                          arm_left_1_link:
-                            arm_left_2_link:
-                              arm_left_3_link:
-                                arm_left_4_link:
-                                  arm_left_5_link:
-                                    arm_left_6_link:
-                                      arm_left_7_link:
-                                        gripper_left_base_link:
-                                          gripper_left_grasp_link:
-                                            {}
-                                          gripper_left_palm_link:
-                                            gripper_left_camera_link:
-                                              gripper_left_finger_1_link:
-                                                gripper_left_finger_2_link:
-                                                  {}
-                        arm_right_base_link:
-                          arm_right_1_link:
-                            arm_right_2_link:
-                              arm_right_3_link:
-                                arm_right_4_link:
-                                  arm_right_5_link:
-                                    arm_right_6_link:
-                                      arm_right_7_link:
-                                        gripper_right_base_link:
-                                          gripper_right_grasp_link:
-                                            {}
-                                          gripper_right_palm_link:
-                                            gripper_right_camera_link:
-                                              gripper_right_finger_1_link:
-                                                gripper_right_finger_2_link:
-                                                  {}
-                        head_base_link:
-                          head_1_link:
-                            head_2_link:
-                              head_3_link:
-                                head_cam_link:
-                                  head_cam_frame:
-                                    head_cam_optical_frame:
-                                      {}
-                                head_center_link:
-                                  {}
-                                sensorring_base_link:
-                                  sensorring_link:
-                                    sensorring_cam3d_link:
-                                      {}
-                        torso_cam3d_down_link:
-                          {}
-                        torso_cam3d_left_link:
-                          {}
-                        torso_cam3d_right_link:
-                          {}
-                        torso_center_link:
-                          {}
+        {}
       Update Interval: 0
-      Value: true
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -696,25 +713,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 4.97984886
+      Distance: 13.8095121
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 1.19021869
-        Y: 2.0118618
-        Z: 0.572196424
+        X: 0.843103826
+        Y: 0.482387483
+        Z: 0.16309759
       Focal Shape Fixed Size: false
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 1.31539774
+      Pitch: 1.30539775
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.5335741
+      Yaw: 4.40857124
     Saved: ~
 Window Geometry:
   Displays:
