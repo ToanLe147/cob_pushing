@@ -62,10 +62,6 @@ class robot_joint_state_publisher:
         while not rospy.is_shutdown() and self.alive.isSet():
             self.jointstate.header.stamp = rospy.Time.now()
             self.publish_arm_joint_states()
-            # self.tb.sendTransform(self.base_pose_tup[0],
-            #                       self.base_pose_tup[1],
-            #                       rospy.get_rostime(),
-            #                       "arm_base_link", "base_link")
             r.sleep()
 
     def publish_arm_joint_states(self):

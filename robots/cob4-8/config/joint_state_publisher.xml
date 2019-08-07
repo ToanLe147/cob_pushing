@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <launch>
-    
+
   <!--********************* ARM PARAMETERS *********************-->
   <group ns="arm_left">
     <!-- Joint name -->
     <rosparam param="joint_names">[arm_left_1_joint, arm_left_2_joint, arm_left_3_joint, arm_left_4_joint, arm_left_5_joint, arm_left_6_joint, arm_left_7_joint]</rosparam>
 
     <!-- Joint states -->
-    <rosparam param="joint_states">[0.75, 1.63, -1.41, 1.19, 0.00, -0.63, 1.59]</rosparam>
+    <rosparam param="joint_states">[0.75, 1.63, -1.41, 1.19, 0.00, -0.63, 1.58]</rosparam>
   </group>
 
   <group ns="arm_right">
@@ -15,7 +15,7 @@
     <rosparam param="joint_names">[arm_right_1_joint, arm_right_2_joint, arm_right_3_joint, arm_right_4_joint, arm_right_5_joint, arm_right_6_joint, arm_right_7_joint]</rosparam>
 
     <!-- Joint states -->
-    <rosparam param="joint_states">[-0.75, -1.63, 1.41, -1.19, 0.00, 0.45, -1.53]</rosparam>
+    <rosparam param="joint_states">[-0.75, -1.63, 1.41, -1.19, 0.00, 0.63, -1.58]</rosparam>
   </group>
 
 <!--********************* OTHER PARAMETERS *********************-->
@@ -24,7 +24,7 @@
     <rosparam param="joint_names">[fl_caster_rotation_joint, fl_caster_r_wheel_joint, b_caster_rotation_joint, b_caster_r_wheel_joint, fr_caster_rotation_joint, fr_caster_r_wheel_joint, head_1_joint, head_2_joint, head_3_joint, sensorring_joint, gripper_right_finger_1_joint, gripper_right_finger_2_joint, gripper_left_finger_1_joint, gripper_left_finger_2_joint]</rosparam>
 
     <!-- Joint states -->
-    <rosparam param="joint_states">[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]</rosparam>
+    <rosparam param="joint_states">[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.85, -0.1, 0.85, -0.1]</rosparam>
 
   </group>
 </launch>

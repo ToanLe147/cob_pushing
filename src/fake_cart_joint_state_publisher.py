@@ -4,7 +4,7 @@ import threading
 
 import tf
 from sensor_msgs.msg import JointState
-from geometry_msgs.msg import Pose, PoseStamped, Point, Quaternion
+from geometry_msgs.msg import Pose, PoseStamped, Point, Quaternion, PolygonStamped
 
 
 class cart_joint_state_publisher:
@@ -15,6 +15,7 @@ class cart_joint_state_publisher:
         - `self`:
         """
         self._joint_state_pub = rospy.Publisher("cart_joint_states", JointState, queue_size=10)
+        self.cart_footprint_pub = rospy.Publisher("/cart_footprint", PolygonStamped, queue_size=10)
 
         self.tb = tf.TransformBroadcaster()
 
@@ -24,8 +25,14 @@ class cart_joint_state_publisher:
         self.jointstate.name = ["lf_caster_joint", "lf_wheel_joint", "rf_caster_joint", "rf_wheel_joint", "lb_caster_joint", "lb_wheel_joint", "rb_caster_joint", "rb_wheel_joint"]
         self.jointstate.position = [0.0] * len(self.jointstate.name)
 
+        # Cart footprint message
+        self.cart_footprint = PolygonStamped()
+        self.cart_footprint.header.stamp = rospy.Time.now()
+        self.cart_footprint.header.frame_id = "cart_base_link"
+        self.cart_footprint.polygon.points = [Point(0.335, 0.335, 0.0), Point(0.335, -0.335, 0.0), Point(-0.335, -0.335, 0.0), Point(-0.335, 0.335, 0.0)]
+
         # Set a transform from the "base" link in the cart urdf to the "cart" frame
-        self.base_pose = PoseStamped(pose=Pose(position=Point(0.0, 0.0, 0.0),
+        self.base_pose = PoseStamped(pose=Pose(position=Point(1.15, 0.0, 0.0),
                                                orientation=Quaternion(0.0, 0.0, 0.0, 1.0)))
         self.base_pose.header.stamp = rospy.Time.now()
         self.base_pose_tup = self.pose_msg_to_tuple(self.base_pose.pose)
@@ -57,13 +64,14 @@ class cart_joint_state_publisher:
             self.tb.sendTransform(self.base_pose_tup[0],
                                   self.base_pose_tup[1],
                                   rospy.get_rostime(),
-                                  "cart_base_link", "map")
+                                  "cart_base_link", "base_link")
             r.sleep()
 
     def publish_cart_joint_states(self):
         """Publish dummy values
         """
         self._joint_state_pub.publish(self.jointstate)
+        self.cart_footprint_pub.publish(self.cart_footprint)
 
 
 if __name__ == '__main__':
