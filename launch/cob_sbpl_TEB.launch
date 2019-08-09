@@ -20,7 +20,7 @@
   </node>
 
   <!---********************** Run AMCL ************************-->
-  <include file="$(find cob_pushing)/launch/includes/amcl_node.xml" >
+  <include file="$(find cob_pushing)/launch/includes/amcl_node_combined.xml" >
     <arg name="use_map_topic" value="true"/>
     <arg name="initial_pose_x" value="$(arg initial_pose_x)"/>
     <arg name="initial_pose_y" value="$(arg initial_pose_y)"/>
@@ -29,7 +29,7 @@
   </include>
 
   <!---************************ Run move base **********************-->
-  <include file="$(find cob_pushing)/launch/includes/move_base.xml" >
+  <include file="$(find cob_pushing)/launch/includes/move_base_combined.xml" >
     <arg name="robot" value="$(arg robot)"/>
     <arg name="sbpl" value="$(arg sbpl)"/>
   </include>
