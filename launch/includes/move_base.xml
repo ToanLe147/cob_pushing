@@ -16,6 +16,7 @@
 
     <!-- Use the dwa local planner for the PR2 -->
     <!-- <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" /> -->
+    <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS" />
 
     <!-- using SBPL_lattice_planner for global planning -->
     <param name="base_global_planner" value="SBPLLatticePlanner" if="$(arg sbpl)"/>

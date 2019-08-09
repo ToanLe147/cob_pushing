@@ -6,6 +6,7 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /GlobalPath1
         - /TF1/Frames1
       Splitter Ratio: 0.688760817
     Tree Height: 775
@@ -392,107 +393,18 @@ Visualization Manager:
     - Alpha: 1
       Class: rviz/RobotModel
       Collision Enabled: false
-      Enabled: true
+      Enabled: false
       Links:
         All Links Enabled: true
         Expand Joint Details: false
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        cart_base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        chassis_middle:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        chassis_top:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        handler_bar:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_back_caster:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_back_leg:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_back_wheel:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_front_caster:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_front_leg:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_front_wheel:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_handler:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_back_caster:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_back_leg:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_back_wheel:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_front_caster:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_front_leg:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_front_wheel:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_handler:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
       Name: Cart_Model
       Robot Description: cart_description
       TF Prefix: ""
       Update Interval: 0
-      Value: true
+      Value: false
       Visual Enabled: true
     - Alpha: 1
       Class: rviz/Polygon
@@ -615,7 +527,7 @@ Visualization Manager:
       Enabled: true
       Head Diameter: 0.300000012
       Head Length: 0.200000003
-      Length: 0.300000012
+      Length: 0.5
       Line Style: Lines
       Line Width: 0.0299999993
       Name: GlobalPath
@@ -623,7 +535,7 @@ Visualization Manager:
         X: 0
         Y: 0
         Z: 0
-      Pose Color: 255; 85; 255
+      Pose Color: 0; 255; 0
       Pose Style: None
       Radius: 0.0299999993
       Shaft Diameter: 0.100000001
@@ -713,25 +625,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 32.7359238
+      Distance: 19.6315823
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -11.0395021
-        Y: -6.39318085
-        Z: -2.58641076
+        X: -1.22418165
+        Y: -1.89659905
+        Z: -0.622024655
       Focal Shape Fixed Size: false
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 1.30539775
+      Pitch: 1.41539764
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.40857124
+      Yaw: 4.39357042
     Saved: ~
 Window Geometry:
   Displays:

@@ -13,6 +13,9 @@
   <arg name="initial_pose_x" default="0.971"/>
   <arg name="initial_pose_y" default="-0.247"/>
   <arg name="initial_pose_a" default="1.57"/>
+  <arg name="robot" default="$(optenv ROBOT !!NO_ROBOT_SET!!)"/>
+  <arg name="sbpl" default="true"/>
+  <arg name="with_cart" default="false"/>
 
   <!--  ******************** Maps ***********************  -->
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)">
@@ -20,7 +23,14 @@
   </node>
 
   <!---********************** Run AMCL ************************-->
-  <include file="$(find cob_pushing)/launch/includes/amcl_node_combined.xml" >
+  <include file="$(find cob_pushing)/launch/includes/amcl_node_combined.xml" if="$(arg with_cart)">
+    <arg name="use_map_topic" value="true"/>
+    <arg name="initial_pose_x" value="$(arg initial_pose_x)"/>
+    <arg name="initial_pose_y" value="$(arg initial_pose_y)"/>
+    <arg name="initial_pose_a" value="$(arg initial_pose_a)"/>
+    <arg name="odom_frame_id"  value="odom_combined"/>
+  </include>
+  <include file="$(find cob_pushing)/launch/includes/amcl_node.xml" unless="$(arg with_cart)">
     <arg name="use_map_topic" value="true"/>
     <arg name="initial_pose_x" value="$(arg initial_pose_x)"/>
     <arg name="initial_pose_y" value="$(arg initial_pose_y)"/>
@@ -29,7 +39,11 @@
   </include>
 
   <!---************************ Run move base **********************-->
-  <include file="$(find cob_pushing)/launch/includes/move_base_combined.xml" >
+  <include file="$(find cob_pushing)/launch/includes/move_base_combined.xml" if="$(arg with_cart)">
+    <arg name="robot" value="$(arg robot)"/>
+    <arg name="sbpl" value="$(arg sbpl)"/>
+  </include>
+  <include file="$(find cob_pushing)/launch/includes/move_base.xml" unless="$(arg with_cart)">
     <arg name="robot" value="$(arg robot)"/>
     <arg name="sbpl" value="$(arg sbpl)"/>
   </include>
