@@ -29,7 +29,7 @@ class cart_joint_state_publisher:
         self.cart_footprint = PolygonStamped()
         self.cart_footprint.header.stamp = rospy.Time.now()
         self.cart_footprint.header.frame_id = "cart_base_link"
-        self.cart_footprint.polygon.points = [Point(0.335, 0.335, 0.0), Point(0.335, -0.335, 0.0), Point(-0.335, -0.335, 0.0), Point(-0.335, 0.335, 0.0)]
+        self.cart_footprint.polygon.points = [Point(0.225, 0.225, 0.0), Point(0.225, -0.225, 0.0), Point(-0.225, -0.225, 0.0), Point(-0.225, 0.225, 0.0)]
 
         # Set a transform from the "base" link in the cart urdf to the "cart" frame
         self.base_pose = PoseStamped(pose=Pose(position=Point(1.15, 0.0, 0.0),

@@ -16,6 +16,7 @@
 
     <!-- Local planner: Teb Local Planner -->
     <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS"/>
+    <!-- <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS" /> -->
 
     <!-- using SBPL_lattice_planner for global planning -->
     <param name="base_global_planner" value="SBPLLatticePlanner" if="$(arg sbpl)"/>
@@ -32,7 +33,6 @@
 
     <!--- load planner parameters -->
     <rosparam file="$(find cob_pushing)/robots/$(arg robot)/config/base_local_planner_params_combined.yaml" command="load" />
-    <!-- <rosparam file="$(find cob_pushing)/robots/$(arg robot)/config/dwa_local_planner.yaml" command="load" ns="DWAPlannerROS" /> -->
 
     <!-- Recovery Behavior -->
     <rosparam param="recovery_behaviors">

@@ -10,8 +10,8 @@ if __name__ == '__main__':
     rospy.init_node('arm_ready_position')
     sss.init('arm_left')
     sss.init('arm_right')
-    sss.init('gripper_right')
-    sss.init('gripper_left')
+    # sss.init('gripper_right')
+    # sss.init('gripper_left')
 
     #=================== TEST ==================
     # sss.move("gripper_right", [[0.68, -0.11]])

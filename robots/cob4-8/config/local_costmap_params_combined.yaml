@@ -8,7 +8,7 @@ robot_base_frame: base_footprint # default: "base_link"
 update_frequency: 5.0 # default: 5.0
 
 # The frequency in Hz for the map to be publish display information.
-publish_frequency: 2.0 # default: 0.0
+publish_frequency: 5.0 # default: 0.0
 
 # Whether or not to use a rolling window version of the costmap
 rolling_window: true # default: false

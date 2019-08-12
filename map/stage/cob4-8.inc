@@ -4,7 +4,7 @@ define sick_s300 ranger
   (
     range_max 29.5
     fov 270.0
-    samples 541
+    samples 721
   )
   # generic model properties
   color "black"

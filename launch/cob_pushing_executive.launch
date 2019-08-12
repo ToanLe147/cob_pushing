@@ -1,7 +1,7 @@
 <!--
   COB navigation SBPL:
-  - map_server
-  - static map
+  - map_server + static map
+  - filtered laser sever
   - amcl
   - move_base
   - rviz view
@@ -15,27 +15,37 @@
   <arg name="initial_pose_a" default="1.57"/>
   <arg name="robot" default="$(optenv ROBOT !!NO_ROBOT_SET!!)"/>
   <arg name="sbpl" default="true"/>
-  <arg name="with_cart" default="false"/>
+  <arg name="with_cart" default="true"/>
 
   <!--  ******************** Maps ***********************  -->
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)">
     <param name="frame_id" value="map"/>
   </node>
 
+  <!--  ******************** Filtered Laser Sever ***********************  -->
+  <node name="filtered_laser" pkg="cob_pushing" type="laser_handler_testing.py" />
+
+  <!--  ***************** Cart Model *****************  -->
+  <include file="$(find cob_pushing)/launch/cart_model_simulator.launch" >
+    <arg name="rviz" value="false" />
+  </include>
+
   <!---********************** Run AMCL ************************-->
   <include file="$(find cob_pushing)/launch/includes/amcl_node_combined.xml" if="$(arg with_cart)">
-    <arg name="use_map_topic" value="true"/>
+    <arg name="use_map_topic"  value="true"/>
     <arg name="initial_pose_x" value="$(arg initial_pose_x)"/>
     <arg name="initial_pose_y" value="$(arg initial_pose_y)"/>
     <arg name="initial_pose_a" value="$(arg initial_pose_a)"/>
     <arg name="odom_frame_id"  value="odom_combined"/>
+    <arg name="scan_topic"     value="cart_filtered_scan"/>
   </include>
   <include file="$(find cob_pushing)/launch/includes/amcl_node.xml" unless="$(arg with_cart)">
-    <arg name="use_map_topic" value="true"/>
+    <arg name="use_map_topic"  value="true"/>
     <arg name="initial_pose_x" value="$(arg initial_pose_x)"/>
     <arg name="initial_pose_y" value="$(arg initial_pose_y)"/>
     <arg name="initial_pose_a" value="$(arg initial_pose_a)"/>
     <arg name="odom_frame_id"  value="odom_combined"/>
+    <arg name="scan_topic"     value="cart_filtered_scan"/>
   </include>
 
   <!---************************ Run move base **********************-->
@@ -49,5 +59,5 @@
   </include>
 
   <!--  ********************** Visualisation **********************  -->
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find cob_pushing)/rviz/cob_rviz.rviz"/>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find cob_pushing)/rviz/cob_pushing_executive.rviz"/>
 </launch>
