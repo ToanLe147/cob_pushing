@@ -17,4 +17,4 @@ GlobalPlanner:
   neutral_cost: 50                              # default 50
   cost_factor: 3.0                              # Factor to multiply each cost from costmap by, default 3.0
   publish_potential: true
-  orientation_mode: 0
+  orientation_mode: 2

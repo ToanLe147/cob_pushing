@@ -14,12 +14,11 @@ TebLocalPlannerROS:
  publish_feedback: False # (bool, default: false) #Publish planner feedback containing the full trajectory and a list of active obstacles (should be enabled only for evaluation or debugging). See list of publishers above. New in version 0.2.2
  shrink_horizon_backup: false # (bool, default: true) #Allows the planner to shrink the horizon temporary (50%) in case of automatically detected issues. New in version 0.2.3
 
-
  # Robot
  max_vel_x: 0.3
  max_vel_x_backwards: 0.3
  max_vel_y: 0.15
- max_vel_theta: 0.1
+ max_vel_theta: 0.2
  acc_lim_x: 0.5
  acc_lim_y: 0.5
  acc_lim_theta: 0.5
@@ -44,7 +43,7 @@ TebLocalPlannerROS:
  # Obstacles
  min_obstacle_dist: 0.55 # This value must also include our robot radius, since footprint_model is set to "point".
  include_costmap_obstacles: True
- costmap_obstacles_behind_robot_dist: 0.6
+ costmap_obstacles_behind_robot_dist: 1.0
  obstacle_poses_affected: 10
  costmap_converter_plugin: ""
  costmap_converter_spin_thread: True
@@ -81,4 +80,4 @@ TebLocalPlannerROS:
  h_signature_threshold: 0.1
  obstacle_keypoint_offset: 0.1
  obstacle_heading_threshold: 0.45
- visualize_hc_graph: True
+ visualize_hc_graph: False
