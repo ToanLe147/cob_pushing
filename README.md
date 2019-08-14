@@ -20,8 +20,11 @@ Aiming at develop safely moving robot while pushing a cart
 6. ~~SBPL in following task~~
 
 # * Control of the robot and the cart along desired path
-1. COB twist control
+1. ~~COB twist control~~
 2. ~~Primitive Motion with/without cart - generated "*.mprim" file~~
 3. ~~State recovery - Don't rotate. Prefer using forward/backward~~
 4. ~~Arm control for turning cart~~
 5. ~~Turning cart to follow planned path~~
+
+# CURRENT STATUS: SMOOTHLY NAVIGATION
+# CURRENT TASK: GENERATE PRIMITIVE MOTION FOR TRANSPORTING HEAVY CART
