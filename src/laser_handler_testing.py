@@ -3,7 +3,7 @@
 import rospy
 import sensor_msgs.point_cloud2 as pc2
 from sensor_msgs.msg import LaserScan
-from nav_msgs.msg import Odometry
+from std_msgs.msg import String
 from geometry_msgs.msg import PolygonStamped, Point
 # Import calculating and operating packages
 from simple_script_server import *
@@ -17,32 +17,21 @@ from shapely.geometry.polygon import Polygon as shape_polygon
 class cob_ready_state():
     def __init__(self):
         # Visualization topics:
-        self.visual_cart_safety_footprint = rospy.Publisher("/visual_cart_safety_footprint", PolygonStamped, queue_size=10)
-        self.visual_cart_footprint_estimator = rospy.Publisher("/visual_cart_footprint_estimator", PolygonStamped, queue_size=10)
+        self.visual_cart_footprint_estimator = rospy.Publisher("/visual_cart_footprint_estimator", PolygonStamped, queue_size=1)
         self.visual_laser_msg = rospy.Publisher("/cart_filtered_scan", LaserScan, queue_size=1)
         self.visual_cart = rospy.Publisher("/isolated_cart_scan", LaserScan, queue_size=1)
 
         # The cart status:
-        self.ref_cart_legs=[(1.485, 0.335),
-                            (0.815, 0.335),
-                            (0.815, -0.335),
-                            (1.485, -0.335)]
+        self.the_cart_pub = rospy.Publisher("/cart_is_holded", String, queue_size=1)
+        self.ref_cart_legs=[(1.375, 0.225),
+                            (0.705, 0.225),
+                            (0.705, -0.225),
+                            (1.375, -0.225)]
         self.the_cart = False
-        self.cart_legs=[]
-        self.cart_area = 0.2
-        self.cart_wheel_diameter = 0.11
-        # Cart safty footprint message
-        self.cart_safety_footprint = PolygonStamped()
-        self.cart_safety_footprint.header.stamp = rospy.Time.now()
-        self.cart_safety_footprint.header.frame_id = "base_link"
-        self.cart_safety_footprint.polygon.points = [Point(1.485, 0.335, 0.0), Point(1.485, -0.335, 0.0), Point(0.815, -0.335, 0.0), Point(0.815, 0.335, 0.0)]
+
         # Cart footprint estimator message
         self.cart_footprint_estimator = PolygonStamped()
         self.cart_footprint_estimator.header.frame_id = "base_link"
-
-        # Robot status:
-        self.current_position = Odometry()
-        self.standing_position = []
 
         # Handlers and feedback data:
         self.filtered_laser_msg = LaserScan()
@@ -68,7 +57,7 @@ class cob_ready_state():
         # Only get data outside scnning radius of 1.3 meter
         for i in self.filtered_laser_msg.ranges:
             range_filter = i
-            if 320 < self.filtered_laser_msg.ranges.index(i) < 400:
+            if 300 < self.filtered_laser_msg.ranges.index(i) < 420:
                 if str(i) != "nan":
                     if i < 1.485:
                         range_filter = np.nan
@@ -90,7 +79,6 @@ class cob_ready_state():
         self.visualization(self.filtered_laser_msg, "filtered_laser")
         self.cart_isolated_laser_msg.ranges = cart_ranges_list
         self.visualization(self.cart_isolated_laser_msg, "isolated_cart")
-        self.visual_cart_safety_footprint.publish(self.cart_safety_footprint)
         self.detect_cart_legs()
 
     def detect_cart_legs(self):
@@ -109,7 +97,7 @@ class cob_ready_state():
         if len(dataset) >= 4:
             kmeans = KMeans(n_clusters=4, random_state=0).fit(dataset)
             legs = kmeans.cluster_centers_
-        print(legs)
+        # print(legs)
 
         def check_leg_position(ref, source):
             check = 0
@@ -133,11 +121,11 @@ class cob_ready_state():
             leg4 = Point(legs[2][0], legs[2][1], 0.0)
             self.cart_footprint_estimator.polygon.points = [leg1, leg2, leg3, leg4]
             self.visual_cart_footprint_estimator.publish(self.cart_footprint_estimator)
-
             # self.close_grippers()
         else:
             self.the_cart = False
         rospy.loginfo("Cart detected: " + str(self.the_cart))
+        self.the_cart_pub.publish(str(self.the_cart))
 
     def visualization(self, data, type):
 

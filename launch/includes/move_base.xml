@@ -15,7 +15,7 @@
     <param name="footprint_padding" value="0.01" />
 
     <!-- Use the dwa local planner for the PR2 -->
-    <!-- <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" /> -->
+    <!-- <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS"/> -->
     <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS" />
 
     <!-- using SBPL_lattice_planner for global planning -->
@@ -35,7 +35,6 @@
 
     <!--- load planner parameters -->
     <rosparam file="$(find cob_pushing)/robots/$(arg robot)/config/base_local_planner_params.yaml" command="load" />
-    <!-- <rosparam file="$(find cob_pushing)/robots/$(arg robot)/config/dwa_local_planner.yaml" command="load" ns="DWAPlannerROS" /> -->
   </node>
 
 </launch>

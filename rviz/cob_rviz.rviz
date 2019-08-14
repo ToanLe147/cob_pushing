@@ -8,6 +8,7 @@ Panels:
         - /Status1
         - /GlobalPath1
         - /TF1/Frames1
+        - /Marker1
       Splitter Ratio: 0.688760817
     Tree Height: 775
   - Class: rviz/Selection
@@ -600,6 +601,14 @@ Visualization Manager:
         {}
       Update Interval: 0
       Value: false
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /move_base_node/TebLocalPlannerROS/teb_markers
+      Name: Marker
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -625,25 +634,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 19.6315823
+      Distance: 17.9466381
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -1.22418165
-        Y: -1.89659905
-        Z: -0.622024655
+        X: 1.61631334
+        Y: -0.341468543
+        Z: -1.3446188
       Focal Shape Fixed Size: false
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 1.41539764
+      Pitch: 1.49979639
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.39357042
+      Yaw: 4.36356878
     Saved: ~
 Window Geometry:
   Displays:

@@ -8,7 +8,7 @@
   <rosparam command="delete" param="/move_base"/>
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base_node" output="screen">
-    <remap from="cmd_vel" to="base/twist_mux/command_navigation"/>
+    <remap from="cmd_vel" to="/base/twist_mux/command_navigation"/>
     <remap from="odom" to="base/odometry_controller/odometry"/>
     <param name="controller_frequency" value="10"/>
     <param name="controller_patience" value="100.0" />
@@ -19,9 +19,10 @@
     <!-- <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS" /> -->
 
     <!-- using SBPL_lattice_planner for global planning -->
-    <param name="base_global_planner" value="SBPLLatticePlanner" if="$(arg sbpl)"/>
+    <!-- <param name="base_global_planner" value="SBPLLatticePlanner" if="$(arg sbpl)"/>
     <param name="SBPLLatticePlanner/primitive_filename" value="$(find cob_pushing)/launch/includes/mprim/cob_only_32.mprim" if="$(arg sbpl)"/>
-    <rosparam file="$(find cob_pushing)/robots/cob4-8/config/sbpl_global_params.yaml" command="load" if="$(arg sbpl)"/>
+    <rosparam file="$(find cob_pushing)/robots/cob4-8/config/sbpl_global_params.yaml" command="load" if="$(arg sbpl)"/> -->
+    <param name="base_global_planner" value="global_planner/GlobalPlanner"/>
 
     <!--- load common configuration files -->
     <rosparam file="$(find cob_pushing)/robots/$(arg robot)/config/costmap_common_params_combined.yaml" command="load" ns="global_costmap" />
@@ -33,6 +34,7 @@
 
     <!--- load planner parameters -->
     <rosparam file="$(find cob_pushing)/robots/$(arg robot)/config/base_local_planner_params_combined.yaml" command="load" />
+    <rosparam file="$(find cob_pushing)/robots/$(arg robot)/config/global_planner_params.yaml" command="load" />
 
     <!-- Recovery Behavior -->
     <rosparam param="recovery_behaviors">

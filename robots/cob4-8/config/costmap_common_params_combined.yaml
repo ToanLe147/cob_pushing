@@ -1,11 +1,10 @@
 # Specifies the delay in transform (tf) data that is tolerable in seconds
-transform_tolerance: 0.8 # default: 0.2
+transform_tolerance: 0.4 # default: 0.2
 
 # The footprint of the robot -> WARNING: According to documentation this parameter should not be loaded from parameter
 # server but be subscribed to! However, it is required to run without error
-# footprint: [[1.485,0.35],[0.35,0.35],[-0.2,0.4],[-0.45,0.0],[-0.2,-0.4],[0.35,-0.35],[1.485,-0.35]] # COB + cart
-# footprint: [[0.4,0.0],[0.35,0.35],[-0.2,0.4],[-0.45,0.0],[-0.2,-0.4],[0.35,-0.35]] # COB only
-footprint: [[1.485,0.35],[0.35,0.35],[-0.2,0.4],[-0.45,0.0],[-0.2,-0.4],[0.35,-0.35],[1.485,-0.35]]
+footprint: [[0.4,0.0],[0.35,0.35],[-0.2,0.4],[-0.45,0.0],[-0.2,-0.4],[0.35,-0.35]] # COB only
+# footprint: [[1.375,0.225], [0.4,0.225], [0.35,0.35],[-0.2,0.4],[-0.45,0.0],[-0.2,-0.4],[0.35,-0.35], [0.4,-0.225], [1.375,-0.225]] # COB + cart
 
 #
 # configure the static layer plugin
@@ -24,32 +23,46 @@ static_layer:
 #
 obstacle_layer:
 
+  # ########################### FOR REAL ROBOT #######################
   # Definition of the sensors/observation sources
-  observation_sources: laser_scan_front laser_scan_left laser_scan_right
+  observation_sources: cart_filtered
 
-  # Parameters of the source: laser_scan_front
-  laser_scan_front:
-    sensor_frame: base_laser_front_link # The frame of the origin of the sensor, default: ""
-    topic: /base_laser_front/scan       # The topic on which sensor data comes in for this source, default: source_name
+  # Parameters of the source: cart_filtered
+  cart_filtered:
+    sensor_frame: base_link # The frame of the origin of the sensor, default: ""
+    topic: /cart_filtered_scan       # The topic on which sensor data comes in for this source, default: source_name
     data_type: LaserScan                # The data type associated with the topic, default: "PointCloud"
     marking: true                       # Whether or not this observation is used to mark obstacles, default: true
     clearing: true                      # Whether or not this observation is used to clear out freespace, default: false
+  ###################################################################
 
-  # Parameters of the source: laser_scan_rear
-  laser_scan_left:
-    sensor_frame: base_laser_left_link  # The frame of the origin of the sensor, default: ""
-    topic: /base_laser_left/scan        # The topic on which sensor data comes in for this source, default: source_name
-    data_type: LaserScan                # The data type associated with the topic, default: "PointCloud"
-    marking: true                       # Whether or not this observation is used to mark obstacles, default: true
-    clearing: true                      # Whether or not this observation is used to clear out freespace, default: false
-
-  # Parameters of the source: laser_scan_front
-  laser_scan_right:
-    sensor_frame: base_laser_right_link # The frame of the origin of the sensor, default: ""
-    topic: /base_laser_right/scan       # The topic on which sensor data comes in for this source, default: source_name
-    data_type: LaserScan                # The data type associated with the topic, default: "PointCloud"
-    marking: true                       # Whether or not this observation is used to mark obstacles, default: true
-    clearing: true                      # Whether or not this observation is used to clear out freespace, default: false
+  # ############################ FOR SIMULATION #######################
+  # observation_sources: laser_scan_front laser_scan_left laser_scan_right
+  #
+  # # Parameters of the source: laser_scan_front
+  # laser_scan_front:
+  #   sensor_frame: base_laser_front_link # The frame of the origin of the sensor, default: ""
+  #   topic: /base_laser_front/scan       # The topic on which sensor data comes in for this source, default: source_name
+  #   data_type: LaserScan                # The data type associated with the topic, default: "PointCloud"
+  #   marking: true                       # Whether or not this observation is used to mark obstacles, default: true
+  #   clearing: true                      # Whether or not this observation is used to clear out freespace, default: false
+  #
+  # # Parameters of the source: laser_scan_rear
+  # laser_scan_left:
+  #   sensor_frame: base_laser_left_link  # The frame of the origin of the sensor, default: ""
+  #   topic: /base_laser_left/scan        # The topic on which sensor data comes in for this source, default: source_name
+  #   data_type: LaserScan                # The data type associated with the topic, default: "PointCloud"
+  #   marking: true                       # Whether or not this observation is used to mark obstacles, default: true
+  #   clearing: true                      # Whether or not this observation is used to clear out freespace, default: false
+  #
+  # # Parameters of the source: laser_scan_front
+  # laser_scan_right:
+  #   sensor_frame: base_laser_right_link # The frame of the origin of the sensor, default: ""
+  #   topic: /base_laser_right/scan       # The topic on which sensor data comes in for this source, default: source_name
+  #   data_type: LaserScan                # The data type associated with the topic, default: "PointCloud"
+  #   marking: true                       # Whether or not this observation is used to mark obstacles, default: true
+  #   clearing: true                      # Whether or not this observation is used to clear out freespace, default: false
+  ###################################################################
 
   # The default maximum distance from the robot at which an obstacle will be inserted into the cost map in meters
   obstacle_range: 5.0 # default: 2.5
@@ -85,7 +98,7 @@ obstacle_layer:
 inflation_layer:
 
   # The radius in meters to which the map inflates obstacle cost values.
-  inflation_radius: 0.55 # default: 0.55
+  inflation_radius: 0.2 # default: 0.55
 
   # A scaling factor to apply to cost values during inflation.
-  cost_scaling_factor: 3.0 # default: 10.0
+  cost_scaling_factor: 3.01 # default: 10.0

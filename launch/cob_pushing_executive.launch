@@ -1,7 +1,8 @@
 <!--
   COB navigation SBPL:
   - map_server + static map
-  - filtered laser sever
+  - Filtered Laser Sever and Arm Ready Position
+  - Cart Model
   - amcl
   - move_base
   - rviz view
@@ -22,7 +23,8 @@
     <param name="frame_id" value="map"/>
   </node>
 
-  <!--  ******************** Filtered Laser Sever ***********************  -->
+  <!--  ******** Filtered Laser Sever and Arm Ready Position ***********  -->
+  <include file="$(find cob_pushing)/launch/upload_param.launch" />
   <node name="filtered_laser" pkg="cob_pushing" type="laser_handler_testing.py" />
 
   <!--  ***************** Cart Model *****************  -->
@@ -45,7 +47,6 @@
     <arg name="initial_pose_y" value="$(arg initial_pose_y)"/>
     <arg name="initial_pose_a" value="$(arg initial_pose_a)"/>
     <arg name="odom_frame_id"  value="odom_combined"/>
-    <arg name="scan_topic"     value="cart_filtered_scan"/>
   </include>
 
   <!---************************ Run move base **********************-->

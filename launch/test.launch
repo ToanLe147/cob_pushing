@@ -3,6 +3,7 @@
   - stage
   - cob robot
   - cart model
+  - Filtered Laser Sever and Arm Ready Position
   - map_server
   - static map
   - amcl
@@ -51,6 +52,10 @@
     <arg name="rviz" value="false" />
   </include>
 
+  <!--  ******** Filtered Laser Sever and Arm Ready Position ***********  -->
+  <include file="$(find cob_pushing)/launch/upload_param.launch" />
+  <node name="filtered_laser" pkg="cob_pushing" type="laser_handler_testing.py" />
+
   <!--  ******************** Maps ***********************  -->
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)">
     <param name="frame_id" value="map"/>
@@ -65,6 +70,7 @@
     <arg name="odom_frame_id" value="odom"/>
     <arg name="base_frame_id" value="base_footprint"/>
     <arg name="global_frame_id" value="map"/>
+    <arg name="scan_topic"     value="cart_filtered_scan"/>
   </include>
 
   <!---************************ Run move base **********************-->

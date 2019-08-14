@@ -1,4 +1,4 @@
 # single positions
-grasping_cart: [[-0.73, -1.81, 1.70, -1.12, -0.29, 0.21, 0.00]]
+grasping_cart: [[-0.73, -1.81, 1.70, -1.12, -0.29, 0.20, 0.00]]
 default_acc: 0.3
 ready: [grasping_cart]
