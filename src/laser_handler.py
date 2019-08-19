@@ -54,7 +54,7 @@ class cob_ready_state():
         cart_ranges_list = np.array([])
         # self.laser_length = len(msg.ranges)
 
-        # Only get data outside scnning radius of 1.3 meter
+        # Only get data outside scnning radius of 1.485 meter
         for i in self.filtered_laser_msg.ranges:
             range_filter = i
             if 300 < self.filtered_laser_msg.ranges.index(i) < 420:
@@ -63,15 +63,13 @@ class cob_ready_state():
                         range_filter = np.nan
             filtered_ranges_list = np.append(filtered_ranges_list, range_filter)
 
-        # Only get data inside scnning radius of 1.3 meter
+        # Only get data inside scnning radius of 1.485 meter
         for i in self.cart_isolated_laser_msg.ranges:
             range_temp = np.nan
             if 320 < self.cart_isolated_laser_msg.ranges.index(i) < 400:
                 if str(i) != "nan":
                     if i < 1.485:
                         range_temp = i
-            # if 0 < self.cart_isolated_laser_msg.ranges.index(i) < 10:  #Test
-            #     range_temp = i
             cart_ranges_list = np.append(cart_ranges_list, range_temp)
 
         # Update laser msg and visualize in Rviz
@@ -140,7 +138,7 @@ if __name__ == '__main__':
     rospy.init_node("grasping_cart")
     cob = cob_ready_state()
 
-    # if not cob.the_cart:
+    # if cob.the_cart:
     #     cob.drive_arms_ready()
 
     rospy.Subscriber("/scan_unified", LaserScan, cob.handle_laser_msg)

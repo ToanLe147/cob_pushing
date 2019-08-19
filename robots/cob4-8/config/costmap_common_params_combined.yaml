@@ -5,6 +5,7 @@ transform_tolerance: 0.4 # default: 0.2
 # server but be subscribed to! However, it is required to run without error
 # footprint: [[0.4,0.0],[0.35,0.35],[-0.2,0.4],[-0.45,0.0],[-0.2,-0.4],[0.35,-0.35]] # COB only
 footprint: [[1.375,0.225], [0.4,0.225], [0.35,0.35],[-0.2,0.4],[-0.45,0.0],[-0.2,-0.4],[0.35,-0.35], [0.4,-0.225], [1.375,-0.225]] # COB + cart
+# footprint: [[1.375,0.4], [1.375,-0.4], [-0.45,-0.4], [-0.45,0.4]] # for SBPL
 
 #
 # configure the static layer plugin
@@ -34,6 +35,7 @@ obstacle_layer:
     data_type: LaserScan                # The data type associated with the topic, default: "PointCloud"
     marking: true                       # Whether or not this observation is used to mark obstacles, default: true
     clearing: true                      # Whether or not this observation is used to clear out freespace, default: false
+    # expected_update_rate: 0.0       # How often to expect a reading from a sensor in seconds
   ###################################################################
 
   # ############################ FOR SIMULATION #######################
@@ -98,7 +100,7 @@ obstacle_layer:
 inflation_layer:
 
   # The radius in meters to which the map inflates obstacle cost values.
-  inflation_radius: 0.2 # default: 0.55
+  inflation_radius: 0.3 # default: 0.55
 
   # A scaling factor to apply to cost values during inflation.
-  cost_scaling_factor: 3.01 # default: 10.0
+  cost_scaling_factor: 4.01 # default: 10.0

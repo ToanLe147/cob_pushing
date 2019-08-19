@@ -15,13 +15,13 @@ TebLocalPlannerROS:
  shrink_horizon_backup: false # (bool, default: true) #Allows the planner to shrink the horizon temporary (50%) in case of automatically detected issues. New in version 0.2.3
 
  # Robot
- max_vel_x: 0.3
- max_vel_x_backwards: 0.15
+ max_vel_x: 0.2
+ max_vel_x_backwards: 0.2
  max_vel_y: 0.1
  max_vel_theta: 0.1
- acc_lim_x: 2.5
- acc_lim_y: 0.5
- acc_lim_theta: 0.5
+ acc_lim_x: 0.1
+ acc_lim_y: 0.05
+ acc_lim_theta: 0.05
  min_turning_radius: 0.0
  footprint_model: # types: "point", "circular", "two_circles", "line", "polygon"
    type: "line"
@@ -30,8 +30,8 @@ TebLocalPlannerROS:
    # front_radius: 0.5 # for type "two_circles"
    # rear_offset: 0.0 # for type "two_circles"
    # rear_radius: 0.72 # for type "two_circles"
-   line_start: [-0.45, 0.0] # for type "line"
-   line_end: [1.375, 0.0] # for type "line"
+   line_start: [0.0, 0.0] # for type "line"
+   line_end: [1.15, 0.0] # for type "line"
    # vertices: [[0.4,0.0],[0.35,0.35],[-0.2,0.4],[-0.45,0.0],[-0.2,-0.4],[0.35,-0.35]] # COB only
    # vertices: [[1.375,0.225], [0.4,0.225], [0.35,0.35],[-0.2,0.4],[-0.45,0.0],[-0.2,-0.4],[0.35,-0.35], [0.4,-0.225], [1.375,-0.225]] # COB + cart
 
@@ -41,10 +41,11 @@ TebLocalPlannerROS:
  free_goal_vel: False
 
  # Obstacles
+ # inflation_dist: 0.15
  min_obstacle_dist: 0.55 # This value must also include our robot radius, since footprint_model is set to "point".
  include_costmap_obstacles: True
  costmap_obstacles_behind_robot_dist: 0.6
- obstacle_poses_affected: 10
+ obstacle_poses_affected: 15
  costmap_converter_plugin: ""
  costmap_converter_spin_thread: True
  costmap_converter_rate: 5
@@ -60,7 +61,7 @@ TebLocalPlannerROS:
  weight_max_vel_theta: 1
  weight_acc_lim_x: 0
  weight_acc_lim_theta: 0
- weight_kinematics_nh: 1000  #1000
+ weight_kinematics_nh: 100  #1000
  weight_kinematics_forward_drive: 0.001  #0.001
  weight_kinematics_turning_radius: 1
  weight_optimaltime: 1

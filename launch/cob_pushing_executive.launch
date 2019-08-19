@@ -11,9 +11,9 @@
 
   <!-- Name of the map to use (without path nor extension) and initial position -->
   <arg name="map_file" default="$(find cob_pushing)/map/stage/map.yaml"/>
-  <arg name="initial_pose_x" default="0.971"/>
-  <arg name="initial_pose_y" default="-0.247"/>
-  <arg name="initial_pose_a" default="1.57"/>
+  <arg name="initial_pose_x" default="-0.02"/>
+  <arg name="initial_pose_y" default="-1.2"/>
+  <arg name="initial_pose_a" default="1.142675"/>
   <arg name="robot" default="$(optenv ROBOT !!NO_ROBOT_SET!!)"/>
   <arg name="sbpl" default="true"/>
   <arg name="with_cart" default="true"/>
@@ -25,7 +25,7 @@
 
   <!--  ******** Filtered Laser Sever and Arm Ready Position ***********  -->
   <include file="$(find cob_pushing)/launch/upload_param.launch" />
-  <node name="filtered_laser" pkg="cob_pushing" type="laser_handler_testing.py" />
+  <node name="filtered_laser" pkg="cob_pushing" type="laser_handler.py" />
 
   <!--  ***************** Cart Model *****************  -->
   <include file="$(find cob_pushing)/launch/cart_model_simulator.launch" >

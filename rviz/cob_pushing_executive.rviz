@@ -314,7 +314,7 @@ Visualization Manager:
       Axis: Z
       Channel Name: intensity
       Class: rviz/LaserScan
-      Color: 0; 255; 0
+      Color: 0; 0; 255
       Color Transformer: FlatColor
       Decay Time: 0
       Enabled: true

@@ -9,7 +9,7 @@ if __name__ == '__main__':
     # Init node and ROS parameters will be used
     rospy.init_node('arm_ready_position')
     sss.init('arm_left')
-    sss.init('arm_right')
+    # sss.init('arm_right')
     # sss.init('gripper_right')
     # sss.init('gripper_left')
 
@@ -29,8 +29,8 @@ if __name__ == '__main__':
     # Go to pushing cart position
     # Using launch and custom yaml for arm positions
 
-    sss.move("arm_right", "ready")
-    sss.sleep(2.0)
+    # sss.move("arm_right", "ready")
+    # sss.sleep(2.0)
     sss.move("arm_left", "ready")
     # sss.sleep(1.0)
     # sss.move("gripper_left", "open")

@@ -2,7 +2,7 @@ include "cob4-8.inc"
 
 define obstacle model
 (
-  size [0.44 0.43 0.765]
+  size [0.440 0.430 0.765]
   gui_nose 0
 )
 
@@ -28,9 +28,9 @@ interval_sim 100  # simulation timestep in milliseconds
 window
 (
   size [ 600 420 ]
-  center [ 13.776 5.724 ]
+  center [ 7.126 5.829 ]
   rotate [ 0.000 0.000 ]
-  scale 7.513
+  scale 23.579
 )
 
 floorplan
@@ -44,7 +44,7 @@ floorplan
 # throw in a robot
 cob4-8
 (
-  pose [ 4.741 1.556 0.000 97.552 ]
+  pose [ 7.126 5.829 0.000 -25.238 ]
   name "cob4-8"
   color "blue"
 )

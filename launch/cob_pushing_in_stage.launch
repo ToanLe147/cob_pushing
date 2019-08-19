@@ -15,9 +15,9 @@
   <!-- Name of the map to use (without path nor extension) and initial position -->
   <arg name="world_file" default="$(find cob_pushing)/map/stage/tuas.world"/>
   <arg name="map_file" default="$(find cob_pushing)/map/stage/map.yaml"/>
-  <arg name="initial_pose_x" default="0.971"/>
-  <arg name="initial_pose_y" default="-0.247"/>
-  <arg name="initial_pose_a" default="1.57"/>
+  <arg name="initial_pose_x" default="2.98"/>
+  <arg name="initial_pose_y" default="4.03"/>
+  <arg name="initial_pose_a" default="-0.4"/>
 
   <param name="/use_sim_time" value="true"/>
   <!--  ******************** Stage ********************  -->
@@ -54,7 +54,7 @@
 
   <!--  ******** Filtered Laser Sever and Arm Ready Position ***********  -->
   <include file="$(find cob_pushing)/launch/upload_param.launch" />
-  <node name="filtered_laser" pkg="cob_pushing" type="laser_handler_testing.py" />
+  <node name="filtered_laser" pkg="cob_pushing" type="laser_handler.py" />
 
   <!--  ******************** Maps ***********************  -->
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)">
