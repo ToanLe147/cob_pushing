@@ -1,30 +1,21 @@
-# robot_pushing_cart
-Aiming at develop safely moving robot while pushing a cart
-# Project is under-developing
+# Cart-pushing navigation package for Care-o-bot 4
+This cob_pushing repository is developed to be a part of cart-pushing navigation and following task in [Intelligent Robotics Group](http://irobotics.aalto.fi). The cob_pushing is aimed to drive the Care-o-bot 4 to desire location in know map while the robot is holding a cart in its hands and keep the cart safe. In this work, I used [SBPL_lattice_planner](http://wiki.ros.org/sbpl_lattice_planner) and [TEB_local_planner](http://wiki.ros.org/teb_local_planner) to generate the trajectory of the robot. The installation of those packages is presented below.
 
-# Objectives
-* ~~Sensing the cart and the environment~~
-* ~~Motion planning for COB4 robot and the cart~~
-* ~~Control of the robot and the cart along desired path~~
-
-# * Sensing the cart and the environment
-1. ~~"Cart State Server" which provides states (pose, pivot) of the cart related to the robot and the environment. The data are collected through laser scan~~
-2. ~~"Arm Control" which guilds COB arms to grasp the cart and hold it tightly~~
-
-# * Motion planning for COB4 robot and the cart
-1. ~~"Navigation stack" of COB4~~
-2. ~~How to eleminate the cart laser scanned, which could give unwanted stop to COB4?~~
-3. ~~SBPL package?~~
-4. ~~Global planning for cart pushing alone task~~
-5. ~~Local planning for cart pushing and nurse following combined task~~
-6. ~~SBPL in following task~~
-
-# * Control of the robot and the cart along desired path
-1. ~~COB twist control~~
-2. ~~Primitive Motion with/without cart - generated "*.mprim" file~~
-3. ~~State recovery - Don't rotate. Prefer using forward/backward~~
-4. ~~Arm control for turning cart~~
-5. ~~Turning cart to follow planned path~~
-
-# CURRENT STATUS: SMOOTHLY NAVIGATION
-# CURRENT TASK: GENERATE PRIMITIVE MOTION FOR TRANSPORTING HEAVY CART
+**Dependancies**
+* SBPL_lattice_planner
+```terminal
+sudo apt-get install ros-kinetic-sbpl ros-kinetic-sbpl-lattice-planner
+```
+* TEB_local_planner
+```terminal
+sudo apt-get install ros-kinetic-teb-local-planner
+```
+* Twist recovery (replace default rotation recovery behavior by backward movement recovery)
+```terminal
+sudo apt-get install ros-kinetic-sbpl ros-kinetic-twist-recovery
+```
+**Installation**
+```terminal
+cd {your-workspace}/src
+git clone https://github.com/ToanLe147/cob_pushing.git 
+```
