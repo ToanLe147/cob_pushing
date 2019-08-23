@@ -53,14 +53,19 @@ class cob_ready_state():
         filtered_ranges_list = np.array([])
         cart_ranges_list = np.array([])
         # self.laser_length = len(msg.ranges)
+        print("***** Original_length:", len(msg.ranges))
 
         # Only get data outside scnning radius of 1.485 meter
         for i in self.filtered_laser_msg.ranges:
             range_filter = i
-            if 300 < self.filtered_laser_msg.ranges.index(i) < 420:
-                if str(i) != "nan":
-                    if i < 1.485:
-                        range_filter = np.nan
+            if 328 <= self.filtered_laser_msg.ranges.index(i) <= 338:
+                range_filter = np.nan
+            if 340 <= self.filtered_laser_msg.ranges.index(i) <= 345:
+                range_filter = np.nan
+            if 380 <= self.filtered_laser_msg.ranges.index(i) <= 390:
+                range_filter = np.nan
+            if 373 <= self.filtered_laser_msg.ranges.index(i) <= 378:
+                range_filter = np.nan
             filtered_ranges_list = np.append(filtered_ranges_list, range_filter)
 
         # Only get data inside scnning radius of 1.485 meter
@@ -112,17 +117,17 @@ class cob_ready_state():
         # Manually check position of the cart:
         if check_leg_position(self.ref_cart_legs, legs) and check_leg_position(self.ref_cart_legs, dataset):
             self.the_cart = True
-            self.cart_footprint_estimator.header.stamp = rospy.Time.now()
-            leg1 = Point(legs[0][0], legs[0][1], 0.0)
-            leg2 = Point(legs[3][0], legs[3][1], 0.0)
-            leg3 = Point(legs[1][0], legs[1][1], 0.0)
-            leg4 = Point(legs[2][0], legs[2][1], 0.0)
-            self.cart_footprint_estimator.polygon.points = [leg1, leg2, leg3, leg4]
-            self.visual_cart_footprint_estimator.publish(self.cart_footprint_estimator)
+            # self.cart_footprint_estimator.header.stamp = rospy.Time.now()
+            # leg1 = Point(legs[0][0], legs[0][1], 0.0)
+            # leg2 = Point(legs[3][0], legs[3][1], 0.0)
+            # leg3 = Point(legs[1][0], legs[1][1], 0.0)
+            # leg4 = Point(legs[2][0], legs[2][1], 0.0)
+            # self.cart_footprint_estimator.polygon.points = [leg1, leg2, leg3, leg4]
+            # self.visual_cart_footprint_estimator.publish(self.cart_footprint_estimator)
             # self.close_grippers()
         else:
             self.the_cart = False
-        rospy.loginfo("Cart detected: " + str(self.the_cart))
+        # rospy.loginfo("Cart detected: " + str(self.the_cart))
         self.the_cart_pub.publish(str(self.the_cart))
 
     def visualization(self, data, type):

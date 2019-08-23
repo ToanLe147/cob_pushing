@@ -100,7 +100,7 @@ obstacle_layer:
 inflation_layer:
 
   # The radius in meters to which the map inflates obstacle cost values.
-  inflation_radius: 0.3 # default: 0.55
+  inflation_radius: 0.5 # default: 0.55
 
   # A scaling factor to apply to cost values during inflation.
-  cost_scaling_factor: 4.01 # default: 10.0
+  cost_scaling_factor: 5.01 # default: 10.0
