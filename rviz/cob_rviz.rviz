@@ -27,7 +27,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: Cart_Filtered_Scan
+    SyncSource: ""
   - Class: rviz/Help
     Name: Help
 Toolbars:
@@ -390,111 +390,6 @@ Visualization Manager:
       Unreliable: false
       Value: true
     - Alpha: 1
-      Class: rviz/RobotModel
-      Collision Enabled: false
-      Enabled: true
-      Links:
-        All Links Enabled: true
-        Expand Joint Details: false
-        Expand Link Details: false
-        Expand Tree: false
-        Link Tree Style: Links in Alphabetic Order
-        cart_base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        chassis_middle:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        chassis_top:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        handler_bar:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_back_caster:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_back_leg:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_back_wheel:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_front_caster:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_front_leg:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_front_wheel:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_handler:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_back_caster:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_back_leg:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_back_wheel:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_front_caster:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_front_leg:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_front_wheel:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_handler:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-      Name: Cart_Model
-      Robot Description: cart_description
-      TF Prefix: ""
-      Update Interval: 0
-      Value: true
-      Visual Enabled: true
-    - Alpha: 1
       Class: rviz/Polygon
       Color: 0; 0; 255
       Enabled: true
@@ -693,9 +588,7 @@ Visualization Manager:
       Marker Topic: /move_base_node/TebLocalPlannerROS/teb_markers
       Name: Marker
       Namespaces:
-        InfeasibleRobotPoses: true
-        PointObstacles: true
-        RobotFootprintModel: true
+        {}
       Queue Size: 100
       Value: true
     - Alpha: 1
@@ -753,7 +646,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 7.90878868
+      Distance: 17.4838142
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1

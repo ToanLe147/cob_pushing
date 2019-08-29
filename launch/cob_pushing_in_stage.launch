@@ -80,5 +80,5 @@
   </include>
 
   <!--  ********************** Visualisation **********************  -->
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find cob_pushing)/rviz/cob_rviz.rviz"/>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find cob_pushing)/rviz/cob_pushing_executive.rviz"/>
 </launch>

@@ -13,9 +13,9 @@
   <!-- Name of the map to use (without path nor extension) and initial position -->
   <arg name="world_file" default="$(find cob_pushing)/map/stage/tuas.world"/>
   <arg name="map_file" default="$(find cob_pushing)/map/stage/map.yaml"/>
-  <arg name="initial_pose_x" default="0.971"/>
-  <arg name="initial_pose_y" default="-0.247"/>
-  <arg name="initial_pose_a" default="1.57"/>
+  <arg name="initial_pose_x" default="2.98"/>
+  <arg name="initial_pose_y" default="4.03"/>
+  <arg name="initial_pose_a" default="-0.4"/>
 
   <param name="/use_sim_time" value="true"/>
   <!--  ******************** Stage ********************  -->
@@ -42,6 +42,9 @@
   <include file="$(find cob_pushing)/robots/$(arg robot)/config/$(arg robot).xml" >
     <arg name="sim" value="true" />
   </include>
+
+  <node pkg="cob_pushing" type="fake_robot_joints_server.py" name="robot_joint_state_publisher"/>
+  <include file="$(find cob_pushing)/robots/$(arg robot)/config/joint_state_publisher.xml" />
 
   <!--  ****** Maps *****  -->
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)">

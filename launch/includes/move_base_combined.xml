@@ -16,16 +16,13 @@
 
     <!-- Local planner: Teb Local Planner -->
     <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS"/>
-    <!-- <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS" /> -->
 
     <!-- using SBPL_lattice_planner for global planning -->
     <param name="base_global_planner" value="SBPLLatticePlanner" if="$(arg sbpl)"/>
-    <param name="SBPLLatticePlanner/primitive_filename" value="$(find cob_pushing)/launch/includes/mprim/cob_unicycle_new.mprim" if="$(arg sbpl)"/>
+    <!-- <param name="SBPLLatticePlanner/primitive_filename" value="$(find cob_pushing)/launch/includes/mprim/cob_unicycle_new.mprim" if="$(arg sbpl)"/> -->
     <!-- <param name="SBPLLatticePlanner/primitive_filename" value="$(find cob_pushing)/launch/includes/mprim/full_prim_motion.mprim" if="$(arg sbpl)"/> -->
-    <!-- <param name="SBPLLatticePlanner/primitive_filename" value="$(find cob_pushing)/launch/includes/mprim/cob_edited.mprim" if="$(arg sbpl)"/> -->
+    <param name="SBPLLatticePlanner/primitive_filename" value="$(find cob_pushing)/launch/includes/mprim/cob_edited.mprim" if="$(arg sbpl)"/>
     <rosparam file="$(find cob_pushing)/robots/cob4-8/config/sbpl_global_params.yaml" command="load" if="$(arg sbpl)"/>
-
-    <!-- <param name="base_global_planner" value="global_planner/GlobalPlanner"/> -->
 
     <!--- load common configuration files -->
     <rosparam file="$(find cob_pushing)/robots/$(arg robot)/config/costmap_common_params_combined.yaml" command="load" ns="global_costmap" />
@@ -37,13 +34,11 @@
 
     <!--- load planner parameters -->
     <rosparam file="$(find cob_pushing)/robots/$(arg robot)/config/base_local_planner_params_combined.yaml" command="load" />
-    <!-- <rosparam file="$(find cob_pushing)/robots/$(arg robot)/config/base_local_planner_params.yaml" command="load" /> -->
-    <!-- <rosparam file="$(find cob_pushing)/robots/$(arg robot)/config/global_planner_params.yaml" command="load" /> -->
 
     <!-- Recovery Behavior -->
     <rosparam param="recovery_behaviors">
       [{name: backwards, type: twist_recovery/TwistRecovery}]
-  </rosparam><rosparam file="$(find cob_pushing)/robots/$(arg robot)/config/backwards.yaml" command="load" ns="backwards"/>
+    </rosparam><rosparam file="$(find cob_pushing)/robots/$(arg robot)/config/backwards.yaml" command="load" ns="backwards"/>
   </node>
 
 </launch>
