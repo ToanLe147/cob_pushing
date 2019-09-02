@@ -44,3 +44,4 @@ export ROBOT_ENV=empty
 roslaunch cob_bringup dashboard.launch
 roslaunch cob_pushing cob_pushing_executive.launch
 ```
+[Modify Primitive Motion](https://github.com/ToanLe147/cob_pushing/tree/master/launch)
