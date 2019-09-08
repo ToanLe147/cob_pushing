@@ -28,11 +28,15 @@ cd {your-workspace}/src
 git clone https://github.com/ToanLe147/cob_pushing.git 
 ```
 ## How to use
-* Simulation
+* Simulation with Care-o-bot 4 only.
+```terminal
+roslaunch cob_pushing cob_in_stage.launch
+```
+* Simulation cart-pushing navigation task
 ```terminal
 roslaunch cob_pushing cob_pushing_in_stage.launch
 ```
-* Real robot
+* Real robot with cart attached to its hands
 ```terminal
 export ROS_MASTER_URI=http://cob4-8-b1:11311
 export ROBOT=cob4-8
@@ -40,3 +44,4 @@ export ROBOT_ENV=empty
 roslaunch cob_bringup dashboard.launch
 roslaunch cob_pushing cob_pushing_executive.launch
 ```
+[Modify Primitive Motion](https://github.com/ToanLe147/cob_pushing/tree/master/launch)
