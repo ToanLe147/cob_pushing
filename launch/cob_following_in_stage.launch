@@ -13,7 +13,7 @@
 <launch>
 
   <!-- Name of the map to use (without path nor extension) and initial position -->
-  <arg name="world_file" default="$(find cob_pushing)/map/stage/tuas.world"/>
+  <arg name="world_file" default="$(find cob_pushing)/map/stage/tuas_fl.world"/>
   <arg name="map_file" default="$(find cob_pushing)/map/stage/map.yaml"/>
   <arg name="initial_pose_x" default="2.98"/>
   <arg name="initial_pose_y" default="4.03"/>
