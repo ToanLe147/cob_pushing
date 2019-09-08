@@ -1,0 +1,84 @@
+<!--
+  COB navigation simulation:
+  - stage
+  - cob robot
+  - cart model
+  - Filtered Laser Sever and Arm Ready Position
+  - map_server
+  - static map
+  - amcl
+  - move_base
+  - rviz view
+ -->
+<launch>
+
+  <!-- Name of the map to use (without path nor extension) and initial position -->
+  <arg name="world_file" default="$(find cob_pushing)/map/stage/tuas_fl.world"/>
+  <arg name="map_file" default="$(find cob_pushing)/map/stage/map.yaml"/>
+  <arg name="initial_pose_x" default="2.98"/>
+  <arg name="initial_pose_y" default="4.03"/>
+  <arg name="initial_pose_a" default="-0.4"/>
+
+  <param name="/use_sim_time" value="true"/>
+  <!--  ******************** Stage ********************  -->
+  <node pkg="stage_ros" type="stageros" name="stageros" args="$(arg world_file)">
+    <param name="base_watchdog_timeout" value="0.5"/>
+    <remap from="odom" to="/base/odometry_controller/odometry"/>
+    <remap from="cmd_vel" to="/base/twist_mux/command_navigation"/>
+    <remap from="base_pose_ground_truth" to="base_pose_ground_truth"/>
+    <remap from="base_scan_0" to="/base_laser_front/scan_raw"/>
+    <remap from="base_scan_1" to="/base_laser_left/scan_raw"/>
+    <remap from="base_scan_2" to="/base_laser_right/scan_raw"/>
+  </node>
+
+  <!--  ***************** COB Robot Model *****************  -->
+
+  <!-- define arguments -->
+  <arg name="robot" default="$(optenv ROBOT !!NO_ROBOT_SET!!)"/>
+  <arg name="sbpl" default="true"/>
+  <arg name="paused" default="false"/>
+  <arg name="initial_config" default=""/>
+
+  <!-- upload default configuration parameters -->
+  <include file="$(find cob_pushing)/robots/$(arg robot)/config/$(arg robot).xml" >
+    <arg name="sim" value="true" />
+  </include>
+
+  <node pkg="cob_pushing" type="fake_robot_joints_server.py" name="robot_joint_state_publisher"/>
+  <include file="$(find cob_pushing)/robots/$(arg robot)/config/joint_state_publisher.xml" />
+
+  <!--  ***************** Cart Model *****************  -->
+  <include file="$(find cob_pushing)/launch/cart_model_simulator.launch" >
+    <arg name="rviz" value="false" />
+  </include>
+
+  <!--  ******** Filtered Laser Sever and Arm Ready Position ***********  -->
+  <include file="$(find cob_pushing)/launch/upload_param.launch" />
+  <node name="filtered_laser" pkg="cob_pushing" type="laser_handler.py" />
+
+  <!--  ******************** Maps ***********************  -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)">
+    <param name="frame_id" value="map"/>
+  </node>
+
+  <!---********************** Run AMCL ************************-->
+  <include file="$(find cob_pushing)/launch/includes/amcl_node_combined.xml" >
+    <arg name="use_map_topic" value="true"/>
+    <arg name="initial_pose_x" value="$(arg initial_pose_x)"/>
+    <arg name="initial_pose_y" value="$(arg initial_pose_y)"/>
+    <arg name="initial_pose_a" value="$(arg initial_pose_a)"/>
+    <arg name="odom_frame_id" value="odom"/>
+    <arg name="base_frame_id" value="base_footprint"/>
+    <arg name="global_frame_id" value="map"/>
+    <arg name="scan_topic"     value="cart_filtered_scan"/>
+  </include>
+
+  <!---************************ Run move base **********************-->
+  <include file="$(find cob_pushing)/launch/includes/move_base_combined.xml" >
+    <arg name="robot" value="$(arg robot)"/>
+    <arg name="sbpl" value="$(arg sbpl)"/>
+  </include>
+
+  <!--  ********************** Visualisation **********************  -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find cob_pushing)/rviz/cob_pushing_executive.rviz"/>
+</launch>
