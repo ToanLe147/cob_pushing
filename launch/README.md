@@ -1,7 +1,7 @@
 Modified primitive motions
 =============================
 
-There is pre-defined primitive motions for Care-o-bot 4 in [*includes/mprim*](https://github.com/ToanLe147/cob_pushing/tree/master/launch/includes/mprim). Not all of them work fine with the navigation system, some suggestions are presented below. Besides, generating new primitive motion set is available, following this [instruction](http://sbpl.net/node/52) and noticing the resolution of used map cause that is common reason for crting an unreadable primitive set.
+There is pre-defined primitive motions for Care-o-bot 4 in [*includes/mprim*](https://github.com/ToanLe147/cob_pushing/tree/master/launch/includes/mprim). Not all of them work fine with the navigation system, some suggestions are presented below. Besides, generating new primitive motion set is available, following this [instruction](http://sbpl.net/node/52) and noticing the resolution of used map cause that is common reason for creating an unreadable primitive set.
 
 # Suggestions
 1. *cob_edited.mprim* - movement is combination of short/medium straight line even in turning action. 
