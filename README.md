@@ -6,7 +6,7 @@ This cob_pushing repository is developed to be a part of cart-pushing navigation
 ## Videos
 <p align="center">
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=J7AZaEtInVc" target="_blank"><img src="http://img.youtube.com/vi/J7AZaEtInVc/0.jpg" alt="Simulation Result" width="450" height="315" border="0" /></a>
-
+<p align="center">
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=PkO12dNXApk" target="_blank"><img src="http://img.youtube.com/vi/PkO12dNXApk/0.jpg" alt="Real Robot Result" width="450" height="315" border="0" /></a>
 
 ## Requirements
